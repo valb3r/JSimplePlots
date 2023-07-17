@@ -1,10 +1,17 @@
 package com.valb3r.jsimpleplots.plots
 
 import org.jzy3d.chart.AWTChart
-import org.jzy3d.chart.factories.OffscreenChartFactory
+import org.jzy3d.chart.Chart
+import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.chart.factories.SwingChartFactory
 import org.jzy3d.colors.Color
+import org.jzy3d.colors.ColorMapper
+import org.jzy3d.colors.colormaps.ColorMapRainbow
+import org.jzy3d.maths.Coord3d
 import org.jzy3d.plot2d.primitives.LineSerie2d
+import org.jzy3d.plot3d.builder.SurfaceBuilder
+import org.jzy3d.plot3d.primitives.Shape
+import org.jzy3d.plot3d.rendering.canvas.Quality
 import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
@@ -97,6 +104,23 @@ class Heatmap {
     }
 
     fun plot(): Heatmap {
+        // TODO: Assertion/truncation so X.size == Y.size == Z.size
+        val surface: Shape = SurfaceBuilder().delaunay(
+            x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind])}
+        )
+        surface.isWireframeDisplayed = false
+        surface.colorMapper = ColorMapper(
+            ColorMapRainbow(),
+            z.min().toDouble(),
+            z.max().toDouble()
+        )
+
+        val chart: Chart = AWTChartFactory().newChart(Quality.Advanced())
+        chart.add(surface)
+        chart.view2d()
+        chart.open()
+        chart.addMouse()
+
         return this
     }
 }
