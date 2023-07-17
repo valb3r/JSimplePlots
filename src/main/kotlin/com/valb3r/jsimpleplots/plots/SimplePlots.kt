@@ -147,6 +147,24 @@ class Surface {
     }
 
     fun plot(): Surface {
+        // TODO: Assertion/truncation so X.size == Y.size == Z.size
+        val surface: Shape = SurfaceBuilder().delaunay(
+            x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind])}
+        )
+        surface.isWireframeDisplayed = false
+        surface.colorMapper = ColorMapper(
+            ColorMapRainbow(),
+            z.min().toDouble(),
+            z.max().toDouble()
+        )
+
+        val chart: Chart = AWTChartFactory().newChart(Quality.Advanced())
+        chart.add(surface)
+        chart.view3d()
+        chart.open()
+        chart.addMouse()
+
         return this
+
     }
 }
