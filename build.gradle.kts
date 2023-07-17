@@ -5,14 +5,17 @@ plugins {
     application
 }
 
-group = "org.example"
+group = "com.valb3r.jsimpleplots"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://maven.jzy3d.org/releases/")
 }
 
 dependencies {
+    implementation("org.jzy3d:jzy3d-native-jogl-swing:2.2.1")
+
     testImplementation(kotlin("test"))
 }
 
