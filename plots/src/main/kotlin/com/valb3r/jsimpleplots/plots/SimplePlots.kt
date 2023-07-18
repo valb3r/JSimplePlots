@@ -17,10 +17,16 @@ import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
 import kotlin.math.log10
+import kotlin.math.max
+import kotlin.math.min
 
 private val COLORS = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.ORANGE)
 
 object SimplePlots {
+
+    fun distributionHistogram(): DistributionHistogram {
+        return DistributionHistogram()
+    }
 
     fun linear(): Linear {
         return Linear()
@@ -36,6 +42,55 @@ object SimplePlots {
 
     fun surface(): Surface {
         return Surface()
+    }
+}
+
+class DistributionHistogram {
+    private lateinit var y: FloatArray
+
+    fun y(y: FloatArray): DistributionHistogram {
+        this.y = y
+        return this
+    }
+
+    fun plot(): DistributionHistogram {
+        val color = COLORS[0]
+        val name = "Distribution of X"
+
+        val f = SwingChartFactory()
+        val chart = f.newChart() as AWTChart
+
+        val binCount = (1.0f + 3.332f * log10(y.size.toFloat())).toInt() // Sturges' rule
+        val start = y.min()
+        val binSize = (y.max() - start) / binCount
+        val histogram = FloatArray(binCount)
+        y.forEach {
+            val ind = ((it - start) / binSize).toInt()
+            histogram[min(ind, histogram.size - 1)]++
+        }
+
+        val serie = LineSerie2d(name)
+        (0..<histogram.size - 1).forEach {
+            serie.add(start + it * binSize, histogram[it])
+            serie.add(start + (it + 1) * binSize, histogram[it])
+        }
+        serie.color = color
+        chart.add(listOf(serie))
+
+        // Legend
+        val infos: MutableList<Legend> = ArrayList()
+        infos.add(Legend(name, color))
+        val legend = OverlayLegendRenderer(infos)
+        val layout: LineLegendLayout = legend.layout
+        layout.backgroundColor = Color.WHITE
+        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        chart.addRenderer(legend)
+        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+
+        // Open as 2D chart
+        chart.view2d()
+        chart.open()
+        return this
     }
 }
 

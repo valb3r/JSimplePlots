@@ -17,6 +17,20 @@ class MainLinear {
     }
 }
 
+class MainDistribution {
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val csv = DataAdapter.csv().of(File("data/results.csv"))
+            SimplePlots.distributionHistogram()
+                .y(csv["Learning rate"].float())
+                .plot()
+        }
+    }
+}
+
 class MainSimple {
 
     companion object {
