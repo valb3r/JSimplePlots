@@ -16,6 +16,7 @@ import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
+import kotlin.math.log10
 
 private val COLORS = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.ORANGE)
 
@@ -228,4 +229,11 @@ class Surface {
         return this
 
     }
+}
+
+fun FloatArray.log10(): FloatArray {
+    return this.map {
+        val value = log10(it)
+        return@map if (value.isFinite()) value else 0.0f
+    }.toFloatArray()
 }
