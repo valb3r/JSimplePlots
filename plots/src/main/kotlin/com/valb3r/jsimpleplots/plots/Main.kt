@@ -60,3 +60,17 @@ object MainFft {
             .plot()
     }
 }
+
+object MainFftWaterfall {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val samplingFrequency = 800.0f
+        val data = (0..5000).map { 0.4f * sin(2.0 * PI * 150 * it.toDouble() / samplingFrequency).toFloat() }.toFloatArray()
+        SimplePlots.waterfallFft()
+            .y(data)
+            .chunkSize(100)
+            .samplingFrequency(samplingFrequency)
+            .plot()
+    }
+}

@@ -49,6 +49,10 @@ object SimplePlots {
     fun fft(): Fft {
         return Fft()
     }
+
+    fun waterfallFft(): WaterfallFft {
+        return WaterfallFft()
+    }
 }
 
 class Fft {
@@ -97,6 +101,64 @@ class Fft {
         // Open as 2D chart
         chart.view2d()
         chart.open()
+        return this
+    }
+}
+
+class WaterfallFft {
+    private var samplingFrequency by Delegates.notNull<Float>()
+    private var waterfallChunk by Delegates.notNull<Int>()
+    private lateinit var y: FloatArray
+
+    fun y(y: FloatArray): WaterfallFft {
+        this.y = y
+        return this
+    }
+
+    fun samplingFrequency(samplingFrequency: Float): WaterfallFft {
+        this.samplingFrequency = samplingFrequency
+        return this
+    }
+
+    fun chunkSize(waterfallChunk: Int): WaterfallFft {
+        this.waterfallChunk = waterfallChunk
+        return this
+    }
+
+    fun plot(): WaterfallFft {
+        val coords = mutableListOf<Coord3d>()
+        var rowIndex = 0
+        while (rowIndex < y.size) {
+            val transform = FastFourierTransformer(DftNormalization.STANDARD)
+            val size = min(y.size - rowIndex, waterfallChunk)
+            val paddedY = DoubleArray(2.0.pow((log2(waterfallChunk.toDouble()) + 1).toInt()).toInt())
+            y.sliceArray(rowIndex..< rowIndex + size).forEachIndexed { index, value -> paddedY[index] = value.toDouble() }
+            val fft = transform.transform(paddedY, TransformType.FORWARD)
+            fft.take(fft.size / 2).forEachIndexed { ind, value ->
+                coords += Coord3d(
+                    (ind * this.samplingFrequency / fft.size).toDouble(),
+                    rowIndex / waterfallChunk.toDouble(),
+                    value.abs() * 2.0f / fft.size
+                )
+            }
+            rowIndex += waterfallChunk
+        }
+
+        // Legend
+        val surface: Shape = SurfaceBuilder().delaunay(coords)
+        surface.isWireframeDisplayed = false
+        surface.colorMapper = ColorMapper(
+            ColorMapRainbow(),
+            coords.minOfOrNull { it.z }?.toDouble() ?: 0.0,
+            coords.maxOfOrNull { it.z }?.toDouble() ?: 0.0
+        )
+
+        val chart: Chart = AWTChartFactory().newChart(Quality.Advanced())
+        chart.add(surface)
+        chart.view2d()
+        chart.open()
+        chart.addMouse()
+
         return this
     }
 }
