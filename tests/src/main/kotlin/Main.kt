@@ -3,21 +3,34 @@ import com.valb3r.jsimpleplots.plots.SimplePlots
 import com.valb3r.jsimpleplots.plots.log10
 import java.io.File
 
-class Main {
+class MainSimple {
 
-    class Main {
+    companion object {
 
-        companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val csv = DataAdapter.csv().of(File("data/results.csv"))
+            SimplePlots.surface()
+                .x(csv.column("Learning rate").float().log10())
+                .y(csv.column("L2").float().log10())
+                .z(csv.column("F1").float())
+                .plot()
+        }
+    }
+}
 
-            @JvmStatic
-            fun main(args: Array<String>) {
-                val csv = DataAdapter.csv().ofNumeric(File("data/results.csv"))
-                SimplePlots.surface()
-                    .x(csv.columnFloat("Learning rate").log10())
-                    .y(csv.columnFloat("L2").log10())
-                    .z(csv.columnFloat("F1"))
-                    .plot()
-            }
+class MainIndexed {
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val csv = DataAdapter.csv().of(File("data/results.csv"))
+            SimplePlots.surface()
+                .x(csv["Learning rate"].float().log10())
+                .y(csv["L2"].float().log10())
+                .z(csv["F1"].float())
+                .plot()
         }
     }
 }

@@ -8,8 +8,8 @@ class Main {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val csv = DataAdapter.csv().ofNumeric(File("data/results.csv"))
-            println(csv.columnFloat("Learning rate"))
+            val csv = DataAdapter.csv().of(File("data/results.csv"))
+            println(csv.column("Learning rate"))
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.valb3r.jsimpleplots.data_adapters
 
 import com.fasterxml.jackson.databind.MappingIterator
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvParser
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
@@ -29,7 +28,7 @@ class Csv {
     var headers: List<String>? = null
         private set
 
-    fun ofNumeric(csvFile: File): Csv {
+    fun of(csvFile: File): Csv {
         val it: MappingIterator<List<String>> = mapper
             .readerForListOf(String::class.java)
             .with(CsvParser.Feature.WRAP_AS_ARRAY)
@@ -59,15 +58,38 @@ class Csv {
         return this.data.flatten().map { it as Float }.toFloatArray()
     }
 
-    fun columnFloat(name: String): FloatArray {
-        return columnFloat(this.headers!!.indexOf(name))
+    fun column(name: String): Column {
+        return column(this.headers!!.indexOf(name))
     }
 
-    fun columnFloat(index: Int): FloatArray {
-        return this.data.map { it[index] }.map { it as Float }.toFloatArray()
+    fun column(index: Int): Column {
+        return Column(this.data.map { it[index] })
+    }
+
+    operator fun get(column: Int): Column {
+        return column(column)
+    }
+
+    operator fun get(column: String): Column {
+        return column(column)
     }
 
     private fun convert(value: String): Any {
         return value.toFloatOrNull() ?: value
+    }
+}
+
+class Column(private val data: List<Any>) {
+
+    fun float(): FloatArray {
+        return this.data.map { it as Float }.toFloatArray()
+    }
+
+    fun any(): Array<Any> {
+        return this.data.toTypedArray()
+    }
+
+    fun string(): Array<String> {
+        return this.data.map { it as String }.toTypedArray()
     }
 }
