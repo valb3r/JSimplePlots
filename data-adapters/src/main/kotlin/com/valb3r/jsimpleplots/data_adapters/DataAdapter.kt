@@ -97,4 +97,8 @@ class Column(private val data: List<Any>) {
     fun string(): Array<String> {
         return this.data.map { it as String }.toTypedArray()
     }
+
+    override fun toString(): String {
+        return "[${data.joinToString(", ")}]"
+    }
 }
