@@ -28,6 +28,11 @@ class Csv {
     var headers: List<String>? = null
         private set
 
+    fun withSeparator(separator: Char): Csv {
+        this.separator = separator
+        return this
+    }
+
     fun of(csvFile: File): Csv {
         val it: MappingIterator<List<String>> = mapper
             .readerForListOf(String::class.java)
