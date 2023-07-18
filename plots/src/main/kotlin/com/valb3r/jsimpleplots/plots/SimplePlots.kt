@@ -109,6 +109,7 @@ class WaterfallFft {
     private var samplingFrequency by Delegates.notNull<Float>()
     private var waterfallChunk by Delegates.notNull<Int>()
     private lateinit var y: FloatArray
+    private var wireframe = false
 
     fun y(y: FloatArray): WaterfallFft {
         this.y = y
@@ -122,6 +123,11 @@ class WaterfallFft {
 
     fun chunkSize(waterfallChunk: Int): WaterfallFft {
         this.waterfallChunk = waterfallChunk
+        return this
+    }
+
+    fun wireframe(wireframe: Boolean): WaterfallFft {
+        this.wireframe = wireframe
         return this
     }
 
@@ -146,7 +152,7 @@ class WaterfallFft {
 
         // Legend
         val surface: Shape = SurfaceBuilder().delaunay(coords)
-        surface.isWireframeDisplayed = false
+        surface.isWireframeDisplayed = wireframe
         surface.colorMapper = ColorMapper(
             ColorMapRainbow(),
             coords.minOfOrNull { it.z }?.toDouble() ?: 0.0,
@@ -319,6 +325,7 @@ class Heatmap {
     private lateinit var x: FloatArray
     private lateinit var y: FloatArray
     private lateinit var z: FloatArray
+    private var wireframe = false
 
     fun x(x: FloatArray): Heatmap {
         this.x = x
@@ -355,12 +362,17 @@ class Heatmap {
         return this
     }
 
+    fun wireframe(wireframe: Boolean): Heatmap {
+        this.wireframe = wireframe
+        return this
+    }
+
     fun plot(): Heatmap {
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind])}
         )
-        surface.isWireframeDisplayed = false
+        surface.isWireframeDisplayed = wireframe
         surface.colorMapper = ColorMapper(
             ColorMapRainbow(),
             z.min().toDouble(),
@@ -382,6 +394,7 @@ class Surface {
     private lateinit var x: FloatArray
     private lateinit var y: FloatArray
     private lateinit var z: FloatArray
+    private var wireframe = false
 
     fun x(x: FloatArray): Surface {
         this.x = x
@@ -395,6 +408,11 @@ class Surface {
 
     fun z(z: FloatArray): Surface {
         this.z = z
+        return this
+    }
+
+    fun wireframe(wireframe: Boolean): Surface {
+        this.wireframe = wireframe
         return this
     }
 
@@ -424,7 +442,7 @@ class Surface {
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind])}
         )
-        surface.isWireframeDisplayed = false
+        surface.isWireframeDisplayed = wireframe
         surface.colorMapper = ColorMapper(
             ColorMapRainbow(),
             z.min().toDouble(),
