@@ -72,7 +72,7 @@ class DistributionHistogram {
         val serie = LineSerie2d(name)
         (0..<histogram.size - 1).forEach {
             serie.add(start + it * binSize, histogram[it])
-            serie.add(start + (it + 1) * binSize, histogram[it])
+            serie.add(start + (it + 1) * binSize, histogram[it + 1])
         }
         serie.color = color
         chart.add(listOf(serie))
