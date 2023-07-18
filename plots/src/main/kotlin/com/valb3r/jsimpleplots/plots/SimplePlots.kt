@@ -1,5 +1,8 @@
 package com.valb3r.jsimpleplots.plots
 
+import org.apache.commons.math3.transform.DftNormalization
+import org.apache.commons.math3.transform.FastFourierTransformer
+import org.apache.commons.math3.transform.TransformType
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.chart.factories.AWTChartFactory
@@ -16,9 +19,8 @@ import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
-import kotlin.math.log10
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.*
+import kotlin.properties.Delegates
 
 private val COLORS = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.ORANGE)
 
@@ -42,6 +44,60 @@ object SimplePlots {
 
     fun surface(): Surface {
         return Surface()
+    }
+
+    fun fft(): Fft {
+        return Fft()
+    }
+}
+
+class Fft {
+    private var samplingFrequency by Delegates.notNull<Float>()
+    private lateinit var y: FloatArray
+
+    fun y(y: FloatArray): Fft {
+        this.y = y
+        return this
+    }
+
+    fun samplingFrequency(samplingFrequency: Float): Fft {
+        this.samplingFrequency = samplingFrequency
+        return this
+    }
+
+    fun plot(): Fft {
+        val color = COLORS[0]
+        val name = "FFT (Amplitude) of Y"
+
+        val f = SwingChartFactory()
+        val chart = f.newChart() as AWTChart
+
+        val transform = FastFourierTransformer(DftNormalization.STANDARD)
+        val paddedY = DoubleArray(2.0.pow((log2(y.size.toDouble()) + 1).toInt()).toInt())
+        y.forEachIndexed { index, value -> paddedY[index] = value.toDouble() }
+        val fft = transform.transform(paddedY, TransformType.FORWARD)
+
+        val serie = LineSerie2d(name)
+        fft.take(fft.size / 2).forEachIndexed { ind, value ->
+            serie.add((ind * this.samplingFrequency / fft.size).toDouble(), value.abs() * 2.0f / fft.size)
+        }
+        serie.color = color
+        chart.add(listOf(serie))
+
+        // Legend
+        val infos: MutableList<Legend> = ArrayList()
+        infos.add(Legend(name, color))
+        val legend = OverlayLegendRenderer(infos)
+        val layout: LineLegendLayout = legend.layout
+        layout.backgroundColor = Color.WHITE
+        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        chart.addRenderer(legend)
+        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+
+        // Open as 2D chart
+        chart.view2d()
+        chart.open()
+        return this
     }
 }
 

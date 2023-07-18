@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     implementation("org.jzy3d:jzy3d-native-jogl-swing:2.2.1")
+    implementation("org.apache.commons:commons-math3:3.6.1")
+
 
     testImplementation(kotlin("test"))
 }
