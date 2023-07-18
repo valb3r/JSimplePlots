@@ -55,7 +55,7 @@ class Csv {
     /**
      * Returns flattened CSV table. I.e. [row00,row01,row02, row10,row11,row12, ...]
      */
-    fun flatTableOfFloats(name: String): FloatArray {
+    fun flatTableOfFloats(): FloatArray {
         return this.data.flatten().map { it as Float }.toFloatArray()
     }
 
