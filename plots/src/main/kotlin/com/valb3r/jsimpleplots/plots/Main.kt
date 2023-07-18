@@ -1,4 +1,4 @@
-package com.valb3r.jsimpleplots
+package com.valb3r.jsimpleplots.plots
 
 import com.valb3r.jsimpleplots.plots.SimplePlots
 
