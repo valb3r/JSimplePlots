@@ -13,6 +13,16 @@ object Main2d {
     }
 }
 
+object Main2dInplaces {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        SimplePlots.xy()
+            .xy(floatArrayOf(1.0f, 1.0f, 2.0f, 4.0f, 3.0f, 9.0f, 4.0f, 16.0f))
+            .plot()
+    }
+}
+
 object MainHeatmap {
 
     @JvmStatic

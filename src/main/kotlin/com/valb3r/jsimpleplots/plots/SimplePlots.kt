@@ -52,6 +52,26 @@ class XY {
         return this
     }
 
+    /**
+     * Format is [x0,y0, x1,y1 ...]
+     */
+    fun xy(xy: FloatArray): XY {
+        val size = xy.size / 2
+        this.x = FloatArray(size)
+        this.y = FloatArray(size)
+
+        var pos = 0
+        xy.forEachIndexed {ind, value ->
+            if (0 == ind % 2) {
+                this.x[pos] = value
+            } else {
+                this.y[pos] = value
+                pos++
+            }
+        }
+        return this
+    }
+
     fun plot(): XY {
         val color = COLORS[0]
         val name = "X-Y"
@@ -103,6 +123,26 @@ class Heatmap {
         return this
     }
 
+    /**
+     * Format is [x0,y0,z0, x1,y1,z1 ...]
+     */
+    fun xyz(xyz: FloatArray): Heatmap {
+        val size = xyz.size / 3
+        this.x = FloatArray(size)
+        this.y = FloatArray(size)
+        this.z = FloatArray(size)
+
+        var pos = 0
+        xyz.forEachIndexed {ind, value ->
+            when (ind % 3) {
+                0 -> this.x[pos] = value
+                1 -> this.y[pos] = value
+                else -> {this.z[pos] = value; pos++}
+            }
+        }
+        return this
+    }
+
     fun plot(): Heatmap {
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
@@ -143,6 +183,27 @@ class Surface {
 
     fun z(z: FloatArray): Surface {
         this.z = z
+        return this
+    }
+
+    /**
+     * Format is [x0,y0,z0, x1,y1,z1 ...]
+     */
+    fun xyz(xyz: FloatArray): Surface {
+        val size = xyz.size / 3
+        this.x = FloatArray(size)
+        this.y = FloatArray(size)
+        this.z = FloatArray(size)
+
+        var pos = 0
+        xyz.forEachIndexed {ind, value ->
+            when (ind % 3) {
+                0 -> this.x[pos] = value
+                1 -> this.y[pos] = value
+                else -> {this.z[pos] = value; pos++}
+            }
+        }
+
         return this
     }
 
