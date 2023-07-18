@@ -3,6 +3,20 @@ import com.valb3r.jsimpleplots.plots.SimplePlots
 import com.valb3r.jsimpleplots.plots.log10
 import java.io.File
 
+class MainLinear {
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val csv = DataAdapter.csv().of(File("data/results.csv"))
+            SimplePlots.linear()
+                .y(csv["Learning rate"].float())
+                .plot()
+        }
+    }
+}
+
 class MainSimple {
 
     companion object {

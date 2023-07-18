@@ -20,21 +20,59 @@ import kotlin.math.log10
 
 private val COLORS = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.ORANGE)
 
-class SimplePlots {
+object SimplePlots {
 
-    companion object Plots {
+    fun linear(): Linear {
+        return Linear()
+    }
 
-        fun xy(): XY {
-            return XY()
-        }
+    fun xy(): XY {
+        return XY()
+    }
 
-        fun heatmap(): Heatmap {
-            return Heatmap()
-        }
+    fun heatmap(): Heatmap {
+        return Heatmap()
+    }
 
-        fun surface(): Surface {
-            return Surface()
-        }
+    fun surface(): Surface {
+        return Surface()
+    }
+}
+
+class Linear {
+    private lateinit var y: FloatArray
+
+    fun y(y: FloatArray): Linear {
+        this.y = y
+        return this
+    }
+
+    fun plot(): Linear {
+        val color = COLORS[0]
+        val name = "Linear of Y"
+
+        val f = SwingChartFactory()
+        val chart = f.newChart() as AWTChart
+
+        val serie = LineSerie2d(name)
+        y.forEachIndexed { ind, yp -> serie.add(ind.toFloat(), yp)}
+        serie.color = color
+        chart.add(listOf(serie))
+
+        // Legend
+        val infos: MutableList<Legend> = ArrayList()
+        infos.add(Legend(name, color))
+        val legend = OverlayLegendRenderer(infos)
+        val layout: LineLegendLayout = legend.layout
+        layout.backgroundColor = Color.WHITE
+        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        chart.addRenderer(legend)
+        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+
+        // Open as 2D chart
+        chart.view2d()
+        chart.open()
+        return this
     }
 }
 

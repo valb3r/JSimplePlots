@@ -7,14 +7,10 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import java.io.File
 
 
-class DataAdapter {
+object DataAdapter {
 
-    companion object Data {
-
-        fun csv(): Csv {
-            return Csv()
-        }
-
+    fun csv(): Csv {
+        return Csv()
     }
 }
 
