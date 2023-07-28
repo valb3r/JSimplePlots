@@ -11,6 +11,12 @@ that describes available actions and to be short and concise.
 
 ### Line (X-Y)
 <!-- @embed-example-start:example-2d-xy:kotlin -->
+```kotlin -->
+SimplePlots.xy()
+    .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+    .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+    .plot()
+```
 <!-- @embed-example-end -->
 
 ## 3D plots

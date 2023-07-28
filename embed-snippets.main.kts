@@ -18,7 +18,7 @@ File("examples").walk().filter { it.name.endsWith(".kt") }.forEach {
         }
 
         if (null != blockName) {
-            examples[blockName!!] += line
+            examples[blockName!!] += line + System.lineSeparator()
         }
     }
 }
@@ -28,20 +28,28 @@ File("examples").walk().filter { it.name.endsWith(".kt") }.forEach {
 var readme = ""
 var blockName: String? = null
 
-File("README.md").forEachLine { line ->
+val readmeFile = File("README.md")
+readmeFile.forEachLine { line ->
     if (line.contains("@embed-example-start")) {
         blockName = line.split(":")[1]
-        readme += line
+        val language = line.split(":")[2]
+        readme += line + System.lineSeparator()
+        readme += "```$language" + System.lineSeparator()
+        readme += examples[blockName]!!.trimIndent() + System.lineSeparator()
         return@forEachLine
     }
 
-    if (line.contains("@example-end")) {
+    if (line.contains("@embed-example-end")) {
         blockName = null
-        readme += line
+        readme += "```" + System.lineSeparator()
+        readme += line + System.lineSeparator()
         return@forEachLine
     }
 
     if (null == blockName) {
-        readme += line
+        readme += line + System.lineSeparator()
     }
 }
+
+
+readmeFile.writeText(readme)
