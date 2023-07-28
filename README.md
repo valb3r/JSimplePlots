@@ -19,9 +19,9 @@ that describes available actions and to be short and concise.
 </repositories>
 
 <dependency>
-    <groupId>com.valb3r.jsimpleplots</groupId>
-    <artifactId>JSimplePlots</artifactId>
-    <version>0.0.1</version>
+    <groupId>com.github.valb3r</groupId>
+    <artifactId>plots</artifactId>
+    <version>0.0.2</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.valb3r:JSimplePlots:0.0.1'
+    implementation 'com.github.valb3r:plots:0.0.2'
 }
 ```
 
