@@ -19,7 +19,7 @@ that describes available actions and to be short and concise.
 </repositories>
 
 <dependency>
-    <groupId>com.github.valb3r</groupId>
+    <groupId>com.valb3r.jsimpleplots</groupId>
     <artifactId>JSimplePlots</artifactId>
     <version>0.0.1</version>
 </dependency>
