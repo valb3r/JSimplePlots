@@ -9,10 +9,32 @@ that describes available actions and to be short and concise.
 
 ## Add library
 
-### Java
+### Maven
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
 
-### Kotlin
+<dependency>
+    <groupId>com.github.valb3r</groupId>
+    <artifactId>JSimplePlots</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
 
+### Gradle
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.valb3r:JSimplePlots:0.0.1'
+}
+```
 
 
 # Examples
