@@ -1,4 +1,4 @@
-group = "com.valb3r.jsimpleplots"
+group = "com.github.valb3r"
 version = "0.0.2-SNAPSHOT"
 
 repositories {
