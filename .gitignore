@@ -43,6 +43,3 @@ bin/
 
 # IntelliJ
 .idea
-
-# Data folder
-data

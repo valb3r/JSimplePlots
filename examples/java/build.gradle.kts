@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.9.0"
+    id("java")
 }
 
-group = "com.valb3r.jsimpleplots"
+group = "org.example"
 version = "0.0.1"
 
 repositories {
