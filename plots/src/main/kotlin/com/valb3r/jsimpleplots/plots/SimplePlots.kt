@@ -64,6 +64,11 @@ class Fft {
         return this
     }
 
+    fun y(y: DoubleArray): Fft {
+        this.y = y.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
     fun samplingFrequency(samplingFrequency: Float): Fft {
         this.samplingFrequency = samplingFrequency
         return this
@@ -113,6 +118,11 @@ class WaterfallFft {
 
     fun y(y: FloatArray): WaterfallFft {
         this.y = y
+        return this
+    }
+
+    fun y(y: DoubleArray): WaterfallFft {
+        this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
@@ -177,6 +187,11 @@ class DistributionHistogram {
         return this
     }
 
+    fun y(y: DoubleArray): DistributionHistogram {
+        this.y = y.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
     fun plot(): DistributionHistogram {
         val color = COLORS[0]
         val name = "Distribution of X"
@@ -226,6 +241,11 @@ class Linear {
         return this
     }
 
+    fun y(y: DoubleArray): Linear {
+        this.y = y.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
     fun plot(): Linear {
         val color = COLORS[0]
         val name = "Linear of Y"
@@ -267,6 +287,16 @@ class XY {
 
     fun y(y: FloatArray): XY {
         this.y = y
+        return this
+    }
+
+    fun x(x: DoubleArray): XY {
+        this.x = x.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+    fun y(y: DoubleArray): XY {
+        this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
@@ -342,6 +372,22 @@ class Heatmap {
         return this
     }
 
+    fun x(x: DoubleArray): Heatmap {
+        this.x = x.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+    fun y(y: DoubleArray): Heatmap {
+        this.y = y.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+    fun z(z: DoubleArray): Heatmap {
+        this.z = z.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+
     /**
      * Format is [x0,y0,z0, x1,y1,z1 ...]
      */
@@ -408,6 +454,21 @@ class Surface {
 
     fun z(z: FloatArray): Surface {
         this.z = z
+        return this
+    }
+
+    fun x(x: DoubleArray): Surface {
+        this.x = x.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+    fun y(y: DoubleArray): Surface {
+        this.y = y.map { it.toFloat() }.toFloatArray()
+        return this
+    }
+
+    fun z(z: DoubleArray): Surface {
+        this.z = z.map { it.toFloat() }.toFloatArray()
         return this
     }
 

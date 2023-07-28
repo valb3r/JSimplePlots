@@ -1,5 +1,4 @@
-package com.valb3r.jsimpleplots.plots
-
+import com.valb3r.jsimpleplots.plots.SimplePlots
 import kotlin.math.PI
 import kotlin.math.sin
 

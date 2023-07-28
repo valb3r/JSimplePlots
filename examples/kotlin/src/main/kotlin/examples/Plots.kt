@@ -63,7 +63,7 @@ object MainFft {
     fun main(args: Array<String>) {
         val samplingFrequency = 800.0f
         val data = (0..500).map { 0.4f * sin(2.0 * PI * 150 * it.toDouble() / samplingFrequency).toFloat() }.toFloatArray()
-        // @example-start:example-fft-2d
+        // @example-start:example-2d-fft
         SimplePlots.fft()
             .y(data)
             .samplingFrequency(samplingFrequency)
