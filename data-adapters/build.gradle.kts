@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.valb3r.jsimpleplots"
-version = "1.0-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
