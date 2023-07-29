@@ -25,7 +25,7 @@ that describes available actions and to be short and concise.
 <dependency>
     <groupId>com.github.valb3r.JSimplePlots</groupId>
     <artifactId>plots</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.valb3r.JSimplePlots:plots:0.0.2'
+    implementation 'com.github.valb3r.JSimplePlots:plots:0.0.3'
 }
 ```
 
@@ -168,8 +168,8 @@ SimplePlots.waterfallFft()
 ```kotlin
 @file:Repository("https://jitpack.io")
 @file:Repository("https://maven.jzy3d.org/releases/")
-@file:DependsOn("com.github.valb3r.JSimplePlots:plots:0.0.2")
-@file:DependsOn("com.github.valb3r.JSimplePlots:data-adapters:0.0.2")
+@file:DependsOn("com.github.valb3r.JSimplePlots:plots:0.0.3")
+@file:DependsOn("com.github.valb3r.JSimplePlots:data-adapters:0.0.3")
 
 import com.valb3r.jsimpleplots.data_adapters.DataAdapter
 import com.valb3r.jsimpleplots.plots.SimplePlots
