@@ -5,8 +5,11 @@ import org.apache.commons.math3.transform.FastFourierTransformer
 import org.apache.commons.math3.transform.TransformType
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
+import org.jzy3d.chart.controllers.mouse.picking.AWTMousePickingPan2dController
+import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
 import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.chart.factories.SwingChartFactory
+import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.ColorMapper
 import org.jzy3d.colors.colormaps.ColorMapRainbow
@@ -78,7 +81,7 @@ class Fft {
         val color = COLORS[0]
         val name = "FFT (Amplitude) of Y"
 
-        val f = SwingChartFactory()
+        val f = swingChartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val transform = FastFourierTransformer(DftNormalization.STANDARD)
@@ -101,6 +104,7 @@ class Fft {
         layout.backgroundColor = Color.WHITE
         layout.font = Font("Helvetica", Font.PLAIN, 12)
         chart.addRenderer(legend)
+        enableMouse(chart)
         chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
 
         // Open as 2D chart
@@ -196,7 +200,7 @@ class DistributionHistogram {
         val color = COLORS[0]
         val name = "Distribution of X"
 
-        val f = SwingChartFactory()
+        val f = swingChartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val binCount = (1.0f + 3.332f * log10(y.size.toFloat())).toInt() // Sturges' rule
@@ -224,6 +228,7 @@ class DistributionHistogram {
         layout.backgroundColor = Color.WHITE
         layout.font = Font("Helvetica", Font.PLAIN, 12)
         chart.addRenderer(legend)
+        enableMouse(chart)
         chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
 
         // Open as 2D chart
@@ -250,7 +255,7 @@ class Linear {
         val color = COLORS[0]
         val name = "Linear of Y"
 
-        val f = SwingChartFactory()
+        val f = swingChartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val serie = LineSerie2d(name)
@@ -266,6 +271,7 @@ class Linear {
         layout.backgroundColor = Color.WHITE
         layout.font = Font("Helvetica", Font.PLAIN, 12)
         chart.addRenderer(legend)
+        enableMouse(chart)
         chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
 
         // Open as 2D chart
@@ -324,7 +330,7 @@ class XY {
         val color = COLORS[0]
         val name = "X-Y"
 
-        val f = SwingChartFactory()
+        val f = swingChartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val serie = LineSerie2d(name)
@@ -341,6 +347,7 @@ class XY {
         layout.backgroundColor = Color.WHITE
         layout.font = Font("Helvetica", Font.PLAIN, 12)
         chart.addRenderer(legend)
+        enableMouse(chart)
         chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
 
         // Open as 2D chart
@@ -526,4 +533,19 @@ fun FloatArray.log10(): FloatArray {
         val value = log10(it)
         return@map if (value.isFinite()) value else 0.0f
     }.toFloatArray()
+}
+
+private fun swingChartFactory2d(): SwingChartFactory {
+    val f = SwingChartFactory()
+    f.painterFactory = object : SwingPainterFactory() {
+        override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
+            return AWTMousePickingPan2dController(chart, clickWidth)
+        }
+    }
+    return f
+}
+
+private fun enableMouse(chart: AWTChart) {
+    chart.addMouse()
+    chart.addMousePickingController(5)
 }
