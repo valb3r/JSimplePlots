@@ -16,10 +16,14 @@ that describes available actions and to be short and concise.
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
     </repository>
+    <repository>
+        <id>maven.jzy3d.org</id>
+        <url>https://maven.jzy3d.org/releases/</url>
+    </repository>
 </repositories>
 
 <dependency>
-    <groupId>com.github.valb3r</groupId>
+    <groupId>com.github.valb3r.JSimplePlots</groupId>
     <artifactId>plots</artifactId>
     <version>0.0.2</version>
 </dependency>
@@ -29,10 +33,11 @@ that describes available actions and to be short and concise.
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.jzy3d.org/releases/' }
 }
 
 dependencies {
-    implementation 'com.github.valb3r:plots:0.0.2'
+    implementation 'com.github.valb3r.JSimplePlots:plots:0.0.2'
 }
 ```
 
@@ -157,3 +162,36 @@ SimplePlots.waterfallFft()
     .plot()
 ```
 <!-- @embed-example-end -->
+
+
+## Kotlin Script Usage example
+```kotlin
+@file:Repository("https://jitpack.io")
+@file:Repository("https://maven.jzy3d.org/releases/")
+@file:DependsOn("com.github.valb3r.JSimplePlots:plots:0.0.2")
+@file:DependsOn("com.github.valb3r.JSimplePlots:data-adapters:0.0.2")
+
+import com.valb3r.jsimpleplots.data_adapters.DataAdapter
+import com.valb3r.jsimpleplots.plots.SimplePlots
+import java.io.File
+
+
+val tempFile = File.createTempFile("plots", "data")
+tempFile.writeText(
+    """
+        X;Y
+        1;1
+        2;4
+        3;9
+        4;16
+        5;25
+    """.trimIndent()
+)
+val csv = DataAdapter.csv().of(tempFile)
+SimplePlots.xy()
+    .x(csv["X"].float())
+    .y(csv["Y"].float())
+    .plot()
+```
+
+**!!! In case of java.awt.HeadlessException**: Add `-Djava.awt.headless=false` to JVM arguments
