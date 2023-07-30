@@ -18,6 +18,26 @@ public class Plots {
     }
 }
 
+class PlotsMultiple {
+    public static void main(String[] args) {
+        // @example-start:example-2d-xy-multiple
+        var parabola = SimplePlots.INSTANCE.xy()
+                .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+                .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+                .named("Parabola");
+        var cubic = SimplePlots.INSTANCE.xy()
+                .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+                .y(new float[] {1.0f, 8.0f, 27.0f, 64.0f})
+                .named("Cubic");
+
+        SimplePlots.INSTANCE.multiple()
+                .add(parabola)
+                .add(cubic)
+                .plot();
+        // @example-end
+    }
+}
+
 class Plots2dFft {
     public static void main(String[] args) {
         var samplingFrequency = 800.0f;

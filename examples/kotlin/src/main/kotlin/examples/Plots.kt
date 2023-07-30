@@ -17,6 +17,28 @@ object Main2d {
     }
 }
 
+object Main2dMultiple {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        // @example-start:example-2d-xy-multiple
+        val parabola = SimplePlots.xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+            .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+            .named("Parabola")
+        val cubic = SimplePlots.xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+            .y(floatArrayOf(1.0f, 8.0f, 27.0f, 64.0f))
+            .named("Cubic")
+
+        SimplePlots.multiple()
+            .add(parabola)
+            .add(cubic)
+            .plot()
+        // @example-end
+    }
+}
+
 object Main2dInplaces {
 
     @JvmStatic

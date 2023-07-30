@@ -12,6 +12,7 @@ class MainLinear {
             val csv = DataAdapter.csv().of(File("data/results.csv"))
             SimplePlots.linear()
                 .y(csv["Learning rate"].float())
+                .named("Learning rate")
                 .plot()
         }
     }
@@ -26,6 +27,7 @@ class MainDistribution {
             val csv = DataAdapter.csv().of(File("data/results.csv"))
             SimplePlots.distributionHistogram()
                 .y(csv["Learning rate"].float())
+                .named("Learning rate")
                 .plot()
         }
     }

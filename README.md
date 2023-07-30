@@ -58,6 +58,25 @@ SimplePlots.INSTANCE.xy()
 ```
 <!-- @embed-example-end -->
 
+### Multiple plots (X-Y)
+<!-- @embed-example-start:example-2d-xy-multiple:java -->
+```java
+var parabola = SimplePlots.INSTANCE.xy()
+        .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+        .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+        .named("Parabola");
+var cubic = SimplePlots.INSTANCE.xy()
+        .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+        .y(new float[] {1.0f, 8.0f, 27.0f, 64.0f})
+        .named("Cubic");
+
+SimplePlots.INSTANCE.multiple()
+        .add(parabola)
+        .add(cubic)
+        .plot();
+```
+<!-- @embed-example-end -->
+
 ### FFT
 <!-- @embed-example-start:example-2d-fft:java -->
 ```java
@@ -114,6 +133,25 @@ SimplePlots.INSTANCE.waterfallFft()
 SimplePlots.xy()
     .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
     .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+    .plot()
+```
+<!-- @embed-example-end -->
+
+### Multiple plots (X-Y)
+<!-- @embed-example-start:example-2d-xy-multiple:kotlin -->
+```kotlin
+val parabola = SimplePlots.xy()
+    .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+    .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+    .named("Parabola")
+val cubic = SimplePlots.xy()
+    .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+    .y(floatArrayOf(1.0f, 8.0f, 27.0f, 64.0f))
+    .named("Cubic")
+
+SimplePlots.multiple()
+    .add(parabola)
+    .add(cubic)
     .plot()
 ```
 <!-- @embed-example-end -->
