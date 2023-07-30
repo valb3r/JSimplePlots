@@ -15,6 +15,7 @@ import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
 import org.jzy3d.chart.factories.SwingChartFactory
 import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
+import sun.jvm.hotspot.oops.CellTypeState.value
 import kotlin.math.*
 
 object SimplePlots {
@@ -57,4 +58,23 @@ fun FloatArray.log10(): FloatArray {
         val value = log10(it)
         return@map if (value.isFinite()) value else 0.0f
     }.toFloatArray()
+}
+
+fun DoubleArray.log10(): DoubleArray {
+    return this.map {
+        val value = log10(it)
+        return@map if (value.isFinite()) value else 0.0
+    }.toDoubleArray()
+}
+
+fun FloatArray.relativeToFirstElem(): FloatArray {
+    return this.map {
+        it - this[0]
+    }.toFloatArray()
+}
+
+fun DoubleArray.relativeToFirstElem(): DoubleArray {
+    return this.map {
+        it - this[0]
+    }.toDoubleArray()
 }
