@@ -8,15 +8,7 @@ import com.valb3r.jsimpleplots.plots.p2d.XY
 import com.valb3r.jsimpleplots.plots.p3d.Heatmap
 import com.valb3r.jsimpleplots.plots.p3d.Surface
 import com.valb3r.jsimpleplots.plots.p3d.WaterfallFft
-import org.jzy3d.chart.AWTChart
-import org.jzy3d.chart.Chart
-import org.jzy3d.chart.controllers.mouse.picking.AWTMousePickingPan2dController
-import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
-import org.jzy3d.chart.factories.SwingChartFactory
-import org.jzy3d.chart.factories.SwingPainterFactory
-import org.jzy3d.colors.Color
-import sun.jvm.hotspot.oops.CellTypeState.value
-import kotlin.math.*
+import kotlin.math.log10
 
 object SimplePlots {
 
