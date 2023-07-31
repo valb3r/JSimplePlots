@@ -8,7 +8,6 @@ import com.valb3r.jsimpleplots.plots.p2d.XY
 import com.valb3r.jsimpleplots.plots.p3d.Heatmap
 import com.valb3r.jsimpleplots.plots.p3d.Surface
 import com.valb3r.jsimpleplots.plots.p3d.WaterfallFft
-import kotlin.math.log10
 
 object SimplePlots {
 
