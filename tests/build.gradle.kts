@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.github.valb3r"
-version = "0.0.5-SNAPSHOT"
+version = "0.0.5"
 
 repositories {
     mavenCentral()
