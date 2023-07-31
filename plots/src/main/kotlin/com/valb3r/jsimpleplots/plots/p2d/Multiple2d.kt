@@ -8,11 +8,17 @@ import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
 
-class Multiple2d: Plot2d() {
-    private var plots = mutableListOf<Plot2d>()
+class Multiple2d: Plot2d<Multiple2d>("") {
+    private var plots = mutableListOf<Plot2d<*>>()
+    private var keepColors = false
 
-    fun add(plot2d: Plot2d): Multiple2d {
+    fun add(plot2d: Plot2d<*>): Multiple2d {
         plots += plot2d
+        return this
+    }
+
+    fun keepColors(keepColors: Boolean): Multiple2d {
+        this.keepColors = keepColors
         return this
     }
 
@@ -24,9 +30,11 @@ class Multiple2d: Plot2d() {
             val internalRepresentation = plot.internalRepresentation()
             internalRepresentation.legend.forEach { legend ->
                 val serie = internalRepresentation.chart.getSerie(legend.label, Serie2d.Type.LINE)
-                val color = COLORS[index % COLORS.size]
-                serie.color = color
-                legend.color = color
+                if (!keepColors) {
+                    val color = COLORS[index % COLORS.size]
+                    serie.color = color
+                    legend.color = color
+                }
                 series += serie
                 legends += legend
                 ++index
@@ -39,10 +47,10 @@ class Multiple2d: Plot2d() {
         val legend = OverlayLegendRenderer(legends)
         val layout: LineLegendLayout = legend.layout
         layout.backgroundColor = Color.WHITE
-        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
         chart.addRenderer(legend)
         enableMouse(chart)
-        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
 
         // Open as 2D chart
         chart.view2d()

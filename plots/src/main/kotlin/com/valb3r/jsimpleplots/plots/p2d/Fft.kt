@@ -6,24 +6,20 @@ import org.apache.commons.math3.transform.TransformType
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.colors.Color
-import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.plot2d.primitives.LineSerie2d
 import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
-import kotlin.math.log10
 import kotlin.math.log2
-import kotlin.math.min
 import kotlin.math.pow
 import kotlin.properties.Delegates
 
 private const val FFT_AMPLITUDE_OF_Y = "FFT (Amplitude) of Y"
 
-class Fft: Plot2d() {
+class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
     private var samplingFrequency by Delegates.notNull<Float>()
     private lateinit var y: FloatArray
-    private var name = FFT_AMPLITUDE_OF_Y
 
     fun y(y: FloatArray): Fft {
         this.y = y
@@ -40,21 +36,16 @@ class Fft: Plot2d() {
         return this
     }
 
-    fun named(name: String): Fft {
-        this.name = name
-        return this
-    }
-
     fun plot(): Fft {
         val chart = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
         layout.backgroundColor = Color.WHITE
-        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
         chart.addRenderer(legend)
         enableMouse(chart)
-        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
 
         // Open as 2D chart
         chart.view2d()
@@ -64,7 +55,7 @@ class Fft: Plot2d() {
 
     private fun legend(): List<Legend> {
         val infos: MutableList<Legend> = ArrayList()
-        infos.add(Legend(this.name, COLORS[0]))
+        infos.add(Legend(this.name, color))
         return infos
     }
 
@@ -81,7 +72,8 @@ class Fft: Plot2d() {
         fft.take(fft.size / 2).forEachIndexed { ind, value ->
             serie.add((ind * this.samplingFrequency / fft.size).toDouble(), value.abs() * 2.0f / fft.size)
         }
-        serie.color = COLORS[0]
+        serie.color = color
+        serie.setWidth(width)
         chart.add(listOf(serie))
         return chart
     }

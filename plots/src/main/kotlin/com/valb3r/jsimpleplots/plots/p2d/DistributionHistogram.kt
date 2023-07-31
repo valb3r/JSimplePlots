@@ -1,10 +1,8 @@
 package com.valb3r.jsimpleplots.plots.p2d
 
-import jogamp.graph.font.typecast.ot.table.Table.name
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.colors.Color
-import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.plot2d.primitives.LineSerie2d
 import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
@@ -15,9 +13,8 @@ import kotlin.math.min
 
 private const val DISTRIBUTION_OF_X = "Distribution of X"
 
-class DistributionHistogram: Plot2d() {
+class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
     private lateinit var y: FloatArray
-    private var name = DISTRIBUTION_OF_X
 
     fun y(y: FloatArray): DistributionHistogram {
         this.y = y
@@ -29,21 +26,16 @@ class DistributionHistogram: Plot2d() {
         return this
     }
 
-    fun named(name: String): DistributionHistogram {
-        this.name = name
-        return this
-    }
-
     fun plot(): DistributionHistogram {
         val chart = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
         layout.backgroundColor = Color.WHITE
-        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
         chart.addRenderer(legend)
         enableMouse(chart)
-        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
 
         // Open as 2D chart
         chart.view2d()
@@ -53,7 +45,7 @@ class DistributionHistogram: Plot2d() {
 
     private fun legend(): List<Legend> {
         val infos: MutableList<Legend> = ArrayList()
-        infos.add(Legend(this.name, COLORS[0]))
+        infos.add(Legend(this.name, color))
         return infos
     }
 
@@ -75,7 +67,8 @@ class DistributionHistogram: Plot2d() {
             serie.add(start + it * binSize, histogram[it])
             serie.add(start + (it + 1) * binSize, histogram[it])
         }
-        serie.color = COLORS[0]
+        serie.color = color
+        serie.setWidth(width)
         chart.add(listOf(serie))
         return chart
     }

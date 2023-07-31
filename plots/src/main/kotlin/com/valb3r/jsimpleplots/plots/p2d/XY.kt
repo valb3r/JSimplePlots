@@ -3,7 +3,6 @@ package com.valb3r.jsimpleplots.plots.p2d
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.colors.Color
-import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.plot2d.primitives.LineSerie2d
 import org.jzy3d.plot3d.rendering.legends.overlay.Legend
 import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
@@ -12,11 +11,10 @@ import java.awt.Font
 
 private const val XY_NAME = "X-Y"
 
-class XY: Plot2d() {
+class XY: Plot2d<XY>(XY_NAME) {
 
     private lateinit var x: FloatArray
     private lateinit var y: FloatArray
-    private var name = XY_NAME
 
     fun x(x: FloatArray): XY {
         this.x = x
@@ -58,21 +56,16 @@ class XY: Plot2d() {
         return this
     }
 
-    fun named(name: String): XY {
-        this.name = name
-        return this
-    }
-
     fun plot(): XY {
         val chart = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
         layout.backgroundColor = Color.WHITE
-        layout.font = Font("Helvetica", Font.PLAIN, 12)
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
         chart.addRenderer(legend)
         enableMouse(chart)
-        chart.axisLayout.font = org.jzy3d.painters.Font("Helvetica", 30)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
 
         // Open as 2D chart
         chart.view2d()
@@ -82,7 +75,7 @@ class XY: Plot2d() {
 
     private fun legend(): List<Legend> {
         val infos: MutableList<Legend> = ArrayList()
-        infos.add(Legend(this.name, COLORS[0]))
+        infos.add(Legend(this.name, color))
         return infos
     }
 
@@ -93,7 +86,8 @@ class XY: Plot2d() {
         val serie = LineSerie2d(this.name)
         // TODO: Assertion/truncation so X.size == Y.size
         x.forEachIndexed { ind, xp -> serie.add(xp, y[ind]) }
-        serie.color = COLORS[0]
+        serie.color = color
+        serie.setWidth(width)
         chart.add(listOf(serie))
         return chart
     }
