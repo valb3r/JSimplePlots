@@ -2,7 +2,7 @@ package examples
 
 import com.valb3r.jsimpleplots.data_adapters.DataAdapter
 import com.valb3r.jsimpleplots.plots.SimplePlots
-import com.valb3r.jsimpleplots.plots.log10
+import com.valb3r.jsimpleplots.plots.helpers.log10
 import java.io.File
 
 class MainLinear {
