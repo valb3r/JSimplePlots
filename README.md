@@ -78,7 +78,7 @@ SimplePlots.xy()
 <!-- @embed-example-end -->
 
 ### Multiple plots (X-Y)
-[Multiple plots](images/multiple.jpg)
+![Multiple plots](images/multiple.jpg)
 <!-- @embed-example-start:example-2d-xy-multiple:kotlin -->
 ```kotlin
 val parabola = SimplePlots.xy()
