@@ -1,5 +1,5 @@
 group = "com.github.valb3r"
-version = "0.0.6"
+version = "0.0.7-SNAPSHOT"
 
 repositories {
     mavenCentral()
