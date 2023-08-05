@@ -3,7 +3,7 @@
 # What is this
 
 This is simple plot helper library that uses [**awesome Jzy3D**](https://github.com/jzy3d/jzy3d-api) for all heavy lifting. The idea is to implement Fluent-API
-that describes available actions is short and concise.
+that describes available actions and is short and concise.
 
 # Need to draw a plot from IntelliJ using Kotlin (or Java)?
 [![Draw a plot from IntelliJ](https://img.youtube.com/vi/D9aX8-E5eY8/0.jpg)](https://www.youtube.com/watch?v=D9aX8-E5eY8)
