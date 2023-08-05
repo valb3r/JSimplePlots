@@ -3,7 +3,7 @@ import java.io.File
 val examples = mutableMapOf<String, String>()
 
 
-File("examples").walk().filter { it.name.endsWith(".kt") }.forEach {
+File("examples").walk().filter { it.name.endsWith(".kt") ||  it.name.endsWith(".kts")}.forEach {
     extractExamplesFromFile(it, "kotlin")
 }
 
