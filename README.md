@@ -2,8 +2,11 @@
 
 # What is this
 
-This is simple plot helper library that uses Jzy3D for all heavy lifting. The idea is to implement Fluent-API
-that describes available actions and to be short and concise.
+This is simple plot helper library that uses [**awesome Jzy3D**](https://github.com/jzy3d/jzy3d-api) for all heavy lifting. The idea is to implement Fluent-API
+that describes available actions is short and concise.
+
+# Need to draw a plot from IntelliJ using Kotlin (or Java)?
+# Need to draw a plot from terminal?
 
 # Usage
 
