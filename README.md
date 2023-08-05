@@ -263,5 +263,8 @@ SimplePlots.INSTANCE.waterfallFft()
 ```
 <!-- @embed-example-end -->
 
-**!!! In case of java.awt.HeadlessException**: Add `-Djava.awt.headless=false` to JVM arguments
+
+# FAQ
+
+- **In case of java.awt.HeadlessException**: Add `-Djava.awt.headless=false` to JVM arguments
 ![JVM args in IntelliJ](images/jvm-args-idea.jpg)
