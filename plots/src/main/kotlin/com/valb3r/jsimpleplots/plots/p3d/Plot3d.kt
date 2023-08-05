@@ -1,22 +1,17 @@
-package com.valb3r.jsimpleplots.plots.p2d
+package com.valb3r.jsimpleplots.plots.p3d
 
+import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
 import org.jzy3d.chart.AWTChart
-import org.jzy3d.chart.Chart
-import org.jzy3d.chart.controllers.mouse.picking.AWTMousePickingPan2dController
-import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
 import org.jzy3d.chart.factories.SwingChartFactory
-import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
 
-abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
-
-    protected var color = COLORS[0]
-    protected var width = 1
+abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
 
     protected var fontFace = "Helvectica"
     protected var fontSize = 12
     protected var axisFontSize = 30
+    protected var wireframe = false
 
     /**
      * Set legend font.
@@ -40,32 +35,18 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     }
 
     /**
-     * Set plot color.
+     * Show wireframe.
      */
-    fun color(color: Color): T {
-        this.color = color
-        return this as T
-    }
-
-    /**
-     * Set plot width (boldness).
-     */
-    fun width(width: Int): T {
-        this.width = width
+    fun wireframe(wireframe: Boolean): T {
+        this.wireframe = wireframe
         return this as T
     }
 
     internal abstract fun internalRepresentation(): InternalPlot2d
 }
 
-internal fun swingChartFactory2d(): SwingChartFactory {
-    val f = SwingChartFactory()
-    f.painterFactory = object : SwingPainterFactory() {
-        override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
-            return AWTMousePickingPan2dController(chart, clickWidth)
-        }
-    }
-    return f
+internal fun swingChartFactory3d(): SwingChartFactory {
+    return SwingChartFactory()
 }
 
 internal fun enableMouse(chart: AWTChart) {

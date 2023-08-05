@@ -1,23 +1,30 @@
 package com.valb3r.jsimpleplots.plots.p3d
 
+import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
+import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.chart.factories.AWTChartFactory
+import org.jzy3d.colors.Color
+import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.colors.ColorMapper
 import org.jzy3d.colors.colormaps.ColorMapRainbow
 import org.jzy3d.maths.Coord3d
 import org.jzy3d.plot3d.builder.SurfaceBuilder
 import org.jzy3d.plot3d.primitives.Shape
 import org.jzy3d.plot3d.rendering.canvas.Quality
+import org.jzy3d.plot3d.rendering.legends.overlay.Legend
+import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
+import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
+import java.awt.Font
 
 /**
  * Pseudo-2d plot - heatmap of 3d function.
  */
-class Heatmap {
+class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
 
     private lateinit var x: FloatArray
     private lateinit var y: FloatArray
     private lateinit var z: FloatArray
-    private var wireframe = false
 
     /**
      * X variable.
@@ -90,17 +97,33 @@ class Heatmap {
     }
 
     /**
-     * Show wireframe.
-     */
-    fun wireframe(wireframe: Boolean): Heatmap {
-        this.wireframe = wireframe
-        return this
-    }
-
-    /**
      * Open plot in new Swing window.
      */
     fun plot(): Heatmap {
+        val chart = awtChart()
+        // Legend
+        val legend = OverlayLegendRenderer(legend())
+        val layout: LineLegendLayout = legend.layout
+        layout.backgroundColor = Color.WHITE
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
+        chart.addRenderer(legend)
+        com.valb3r.jsimpleplots.plots.p2d.enableMouse(chart)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
+
+        chart.open()
+        chart.view2d()
+        chart.addMouse()
+        return this
+    }
+
+    private fun legend(): List<Legend> {
+        val infos: MutableList<Legend> = ArrayList()
+        infos.add(Legend(this.name, COLORS[0]))
+        return infos
+    }
+
+    private fun awtChart(): AWTChart {
+        val f = swingChartFactory3d()
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind]) }
@@ -112,12 +135,17 @@ class Heatmap {
             z.max().toDouble()
         )
 
-        val chart: Chart = AWTChartFactory().newChart(Quality.Advanced())
+        val chart: AWTChart = f.newChart(Quality.Advanced())
         chart.add(surface)
-        chart.view2d()
-        chart.open()
-        chart.addMouse()
+        return chart
+    }
 
-        return this
+    override fun internalRepresentation(): InternalPlot2d {
+        return object : InternalPlot2d {
+            override val chart: Chart
+                get() = awtChart()
+            override val legend: List<Legend>
+                get() = legend()
+        }
     }
 }

@@ -1,16 +1,23 @@
 package com.valb3r.jsimpleplots.plots.p3d
 
+import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
 import org.apache.commons.math3.transform.DftNormalization
 import org.apache.commons.math3.transform.FastFourierTransformer
 import org.apache.commons.math3.transform.TransformType
+import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.chart.factories.AWTChartFactory
+import org.jzy3d.colors.Color
 import org.jzy3d.colors.ColorMapper
 import org.jzy3d.colors.colormaps.ColorMapRainbow
 import org.jzy3d.maths.Coord3d
 import org.jzy3d.plot3d.builder.SurfaceBuilder
 import org.jzy3d.plot3d.primitives.Shape
 import org.jzy3d.plot3d.rendering.canvas.Quality
+import org.jzy3d.plot3d.rendering.legends.overlay.Legend
+import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
+import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
+import java.awt.Font
 import kotlin.math.log2
 import kotlin.math.min
 import kotlin.math.pow
@@ -19,11 +26,10 @@ import kotlin.properties.Delegates
 /**
  * Fast fourier amplitude transform in form of waterfall (time-frequency domain)
  */
-class WaterfallFft {
+class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
     private var samplingFrequency by Delegates.notNull<Float>()
     private var waterfallChunk by Delegates.notNull<Int>()
     private lateinit var y: FloatArray
-    private var wireframe = false
 
     /**
      * Input variable.
@@ -58,17 +64,33 @@ class WaterfallFft {
     }
 
     /**
-     * Show wireframe.
-     */
-    fun wireframe(wireframe: Boolean): WaterfallFft {
-        this.wireframe = wireframe
-        return this
-    }
-
-    /**
      * Open plot in new Swing window.
      */
     fun plot(): WaterfallFft {
+        val chart = awtChart()
+        // Legend
+        val legend = OverlayLegendRenderer(legend())
+        val layout: LineLegendLayout = legend.layout
+        layout.backgroundColor = Color.WHITE
+        layout.font = Font(fontFace, Font.PLAIN, fontSize)
+        chart.addRenderer(legend)
+        com.valb3r.jsimpleplots.plots.p2d.enableMouse(chart)
+        chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
+
+        chart.open()
+        chart.view2d()
+        chart.addMouse()
+        return this
+    }
+
+    private fun legend(): List<Legend> {
+        val infos: MutableList<Legend> = ArrayList()
+        infos.add(Legend(this.name, Color.COLORS[0]))
+        return infos
+    }
+
+    private fun awtChart(): AWTChart {
+        val f = swingChartFactory3d()
         val coords = mutableListOf<Coord3d>()
         var rowIndex = 0
         while (rowIndex < y.size) {
@@ -87,7 +109,6 @@ class WaterfallFft {
             rowIndex += waterfallChunk
         }
 
-        // Legend
         val surface: Shape = SurfaceBuilder().delaunay(coords)
         surface.isWireframeDisplayed = wireframe
         surface.colorMapper = ColorMapper(
@@ -96,12 +117,17 @@ class WaterfallFft {
             coords.maxOfOrNull { it.z }?.toDouble() ?: 0.0
         )
 
-        val chart: Chart = AWTChartFactory().newChart(Quality.Advanced())
+        val chart: AWTChart = f.newChart(Quality.Advanced())
         chart.add(surface)
-        chart.view2d()
-        chart.open()
-        chart.addMouse()
+        return chart
+    }
 
-        return this
+    override fun internalRepresentation(): InternalPlot2d {
+        return object : InternalPlot2d {
+            override val chart: Chart
+                get() = awtChart()
+            override val legend: List<Legend>
+                get() = legend()
+        }
     }
 }
