@@ -4,7 +4,10 @@ import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
 import org.jzy3d.chart.controllers.mouse.picking.AWTMousePickingPan2dController
 import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
-import org.jzy3d.chart.factories.SwingChartFactory
+import org.jzy3d.chart.factories.AWTChartFactory
+import org.jzy3d.chart.factories.ChartFactory
+import org.jzy3d.chart.factories.EmulGLChartFactory
+import org.jzy3d.chart.factories.NativePainterFactory
 import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
@@ -58,8 +61,15 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     internal abstract fun internalRepresentation(): InternalPlot2d
 }
 
-internal fun swingChartFactory2d(): SwingChartFactory {
-    val f = SwingChartFactory()
+internal fun chartFactory2d(): ChartFactory {
+    val f: ChartFactory = try {
+        NativePainterFactory.detectGLProfile()
+        AWTChartFactory()
+    } catch (ex: Exception) {
+        println("No OpenGL support found, fallback to software")
+        EmulGLChartFactory()
+    }
+
     f.painterFactory = object : SwingPainterFactory() {
         override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
             return AWTMousePickingPan2dController(chart, clickWidth)

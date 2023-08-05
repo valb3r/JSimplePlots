@@ -99,7 +99,7 @@ class XY: Plot2d<XY>(XY_NAME) {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory2d()
+        val f = chartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val serie = LineSerie2d(this.name)

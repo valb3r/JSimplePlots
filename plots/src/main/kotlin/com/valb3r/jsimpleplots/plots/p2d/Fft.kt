@@ -75,7 +75,7 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory2d()
+        val f = chartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val transform = FastFourierTransformer(DftNormalization.STANDARD)

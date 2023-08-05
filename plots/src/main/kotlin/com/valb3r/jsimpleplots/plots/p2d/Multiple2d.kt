@@ -1,5 +1,6 @@
 package com.valb3r.jsimpleplots.plots.p2d
 
+import org.jzy3d.chart.AWTChart
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.plot2d.primitives.Serie2d
@@ -53,7 +54,7 @@ class Multiple2d: Plot2d<Multiple2d>("") {
             }
         }
 
-        val chart = swingChartFactory2d().newChart()
+        val chart = chartFactory2d().newChart() as AWTChart
         series.forEach { chart.add(it) }
         // Legend
         val legend = OverlayLegendRenderer(legends)

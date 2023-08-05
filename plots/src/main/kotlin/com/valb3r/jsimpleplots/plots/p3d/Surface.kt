@@ -3,7 +3,6 @@ package com.valb3r.jsimpleplots.plots.p3d
 import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
-import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.ColorMapper
 import org.jzy3d.colors.colormaps.ColorMapRainbow
@@ -143,7 +142,7 @@ class Surface: Plot3d<Surface>("Surface plot") {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory3d()
+        val f = chartFactory3d()
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind]) }
@@ -155,7 +154,7 @@ class Surface: Plot3d<Surface>("Surface plot") {
             z.max().toDouble()
         )
 
-        val chart: AWTChart = f.newChart(Quality.Advanced())
+        val chart: AWTChart = f.newChart(Quality.Advanced()) as AWTChart
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
         layout.backgroundColor = Color.WHITE

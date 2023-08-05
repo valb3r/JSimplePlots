@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.valb3r"
-version = "0.0.7-SNAPSHOT"
+version = "0.0.7"
 
 repositories {
     mavenCentral()
@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation("org.jzy3d:jzy3d-native-jogl-swing:2.2.1")
+    implementation("org.jzy3d:jzy3d-emul-gl-awt:2.2.1")
     implementation("org.apache.commons:commons-math3:3.6.1")
 
 

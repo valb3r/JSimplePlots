@@ -60,7 +60,7 @@ class Linear: Plot2d<Linear>(LINEAR_OF_Y) {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory2d()
+        val f = chartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val serie = LineSerie2d(name)

@@ -6,7 +6,6 @@ import org.apache.commons.math3.transform.FastFourierTransformer
 import org.apache.commons.math3.transform.TransformType
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
-import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.ColorMapper
 import org.jzy3d.colors.colormaps.ColorMapRainbow
@@ -90,7 +89,7 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory3d()
+        val f = chartFactory3d()
         val coords = mutableListOf<Coord3d>()
         var rowIndex = 0
         while (rowIndex < y.size) {
@@ -117,7 +116,7 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
             coords.maxOfOrNull { it.z }?.toDouble() ?: 0.0
         )
 
-        val chart: AWTChart = f.newChart(Quality.Advanced())
+        val chart: AWTChart = f.newChart(Quality.Advanced()) as AWTChart
         chart.add(surface)
         return chart
     }

@@ -2,9 +2,10 @@ package com.valb3r.jsimpleplots.plots.p3d
 
 import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
 import org.jzy3d.chart.AWTChart
-import org.jzy3d.chart.factories.SwingChartFactory
-import org.jzy3d.colors.Color
-import org.jzy3d.colors.Color.COLORS
+import org.jzy3d.chart.factories.AWTChartFactory
+import org.jzy3d.chart.factories.ChartFactory
+import org.jzy3d.chart.factories.EmulGLChartFactory
+import org.jzy3d.chart.factories.NativePainterFactory
 
 abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
 
@@ -45,11 +46,12 @@ abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
     internal abstract fun internalRepresentation(): InternalPlot2d
 }
 
-internal fun swingChartFactory3d(): SwingChartFactory {
-    return SwingChartFactory()
-}
-
-internal fun enableMouse(chart: AWTChart) {
-    chart.addMouse()
-    chart.addMousePickingController(5)
+internal fun chartFactory3d(): ChartFactory {
+    return try {
+        NativePainterFactory.detectGLProfile()
+        AWTChartFactory()
+    } catch (ex: Exception) {
+        println("No OpenGL support found, fallback to software")
+        EmulGLChartFactory()
+    }
 }

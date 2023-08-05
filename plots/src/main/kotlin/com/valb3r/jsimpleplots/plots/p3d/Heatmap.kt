@@ -3,7 +3,6 @@ package com.valb3r.jsimpleplots.plots.p3d
 import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
-import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.colors.ColorMapper
@@ -123,7 +122,7 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory3d()
+        val f = chartFactory3d()
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind]) }
@@ -135,7 +134,7 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
             z.max().toDouble()
         )
 
-        val chart: AWTChart = f.newChart(Quality.Advanced())
+        val chart: AWTChart = f.newChart(Quality.Advanced()) as AWTChart
         chart.add(surface)
         return chart
     }

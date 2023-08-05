@@ -62,7 +62,7 @@ class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
     }
 
     private fun awtChart(): AWTChart {
-        val f = swingChartFactory2d()
+        val f = chartFactory2d()
         val chart = f.newChart() as AWTChart
 
         val binCount = (1.0f + 3.332f * log10(y.size.toFloat())).toInt() // Sturges' rule
