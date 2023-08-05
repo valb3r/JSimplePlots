@@ -16,37 +16,58 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.properties.Delegates
 
+/**
+ * Fast fourier amplitude transform in form of waterfall (time-frequency domain)
+ */
 class WaterfallFft {
     private var samplingFrequency by Delegates.notNull<Float>()
     private var waterfallChunk by Delegates.notNull<Int>()
     private lateinit var y: FloatArray
     private var wireframe = false
 
+    /**
+     * Input variable.
+     */
     fun y(y: FloatArray): WaterfallFft {
         this.y = y
         return this
     }
 
+    /**
+     * Input variable.
+     */
     fun y(y: DoubleArray): WaterfallFft {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Sampling frequency, Hz
+     */
     fun samplingFrequency(samplingFrequency: Float): WaterfallFft {
         this.samplingFrequency = samplingFrequency
         return this
     }
 
+    /**
+     * Length of FFT transformation or width of the plot (X axis) in input array point count.
+     */
     fun chunkSize(waterfallChunk: Int): WaterfallFft {
         this.waterfallChunk = waterfallChunk
         return this
     }
 
+    /**
+     * Show wireframe.
+     */
     fun wireframe(wireframe: Boolean): WaterfallFft {
         this.wireframe = wireframe
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): WaterfallFft {
         val coords = mutableListOf<Coord3d>()
         var rowIndex = 0

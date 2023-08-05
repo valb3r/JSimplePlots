@@ -18,6 +18,9 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     protected var fontSize = 12
     protected var axisFontSize = 30
 
+    /**
+     * Set legend font.
+     */
     fun font(fontSize: Int? = null, axisFontSize: Int? = null, fontFace: String? = null): T  {
         fontSize?.let { this.fontSize = it }
         axisFontSize?.let { this.axisFontSize = it }
@@ -25,16 +28,25 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
         return this as T
     }
 
+    /**
+     * Set plot name.
+     */
     fun named(name: String): T {
         this.name = name
         return this as T
     }
 
+    /**
+     * Set plot color.
+     */
     fun color(color: Color): T {
         this.color = color
         return this as T
     }
 
+    /**
+     * Set plot width (boldness).
+     */
     fun width(width: Int): T {
         this.width = width
         return this as T

@@ -9,6 +9,9 @@ import org.jzy3d.plot3d.builder.SurfaceBuilder
 import org.jzy3d.plot3d.primitives.Shape
 import org.jzy3d.plot3d.rendering.canvas.Quality
 
+/**
+ * Pseudo-2d plot - heatmap of 3d function.
+ */
 class Heatmap {
 
     private lateinit var x: FloatArray
@@ -16,31 +19,49 @@ class Heatmap {
     private lateinit var z: FloatArray
     private var wireframe = false
 
+    /**
+     * X variable.
+     */
     fun x(x: FloatArray): Heatmap {
         this.x = x
         return this
     }
 
+    /**
+     * Y variable.
+     */
     fun y(y: FloatArray): Heatmap {
         this.y = y
         return this
     }
 
+    /**
+     * Z variable.
+     */
     fun z(z: FloatArray): Heatmap {
         this.z = z
         return this
     }
 
+    /**
+     * X variable.
+     */
     fun x(x: DoubleArray): Heatmap {
         this.x = x.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Y variable.
+     */
     fun y(y: DoubleArray): Heatmap {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Z variable.
+     */
     fun z(z: DoubleArray): Heatmap {
         this.z = z.map { it.toFloat() }.toFloatArray()
         return this
@@ -48,6 +69,7 @@ class Heatmap {
 
 
     /**
+     * X-Y-Z tuple input in one array
      * Format is [x0,y0,z0, x1,y1,z1 ...]
      */
     fun xyz(xyz: FloatArray): Heatmap {
@@ -67,11 +89,17 @@ class Heatmap {
         return this
     }
 
+    /**
+     * Show wireframe.
+     */
     fun wireframe(wireframe: Boolean): Heatmap {
         this.wireframe = wireframe
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): Heatmap {
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(

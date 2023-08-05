@@ -137,7 +137,7 @@ SimplePlots.surface()
 ```
 <!-- @embed-example-end -->
 
-### Fast fourier transform
+### Fast fourier transform - waterfall (time domain + frequency domain)
 <!-- @embed-example-start:example-fft-heatmap:kotlin -->
 ```kotlin
 SimplePlots.waterfallFft()
@@ -212,7 +212,7 @@ SimplePlots.INSTANCE.multiple()
 ```
 <!-- @embed-example-end -->
 
-### FFT
+### Fast fourier transform
 <!-- @embed-example-start:example-2d-fft:java -->
 ```java
 SimplePlots.INSTANCE.fft()
@@ -246,7 +246,7 @@ SimplePlots.INSTANCE.surface()
 ```
 <!-- @embed-example-end -->
 
-### Fast fourier transform
+### Fast fourier transform - waterfall (time domain + frequency domain)
 <!-- @embed-example-start:example-fft-heatmap:java -->
 ```java
 SimplePlots.INSTANCE.waterfallFft()

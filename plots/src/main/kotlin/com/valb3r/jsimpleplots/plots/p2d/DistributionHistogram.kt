@@ -13,19 +13,31 @@ import kotlin.math.min
 
 private const val DISTRIBUTION_OF_X = "Distribution of X"
 
+/**
+ * Plots distribution histogram of the variable.
+ */
 class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
     private lateinit var y: FloatArray
 
+    /**
+     * Input variable for histogram.
+     */
     fun y(y: FloatArray): DistributionHistogram {
         this.y = y
         return this
     }
 
+    /**
+     * Input variable for histogram.
+     */
     fun y(y: DoubleArray): DistributionHistogram {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): DistributionHistogram {
         val chart = awtChart()
         // Legend

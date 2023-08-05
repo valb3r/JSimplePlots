@@ -8,20 +8,32 @@ import org.jzy3d.plot3d.rendering.legends.overlay.LineLegendLayout
 import org.jzy3d.plot3d.rendering.legends.overlay.OverlayLegendRenderer
 import java.awt.Font
 
+/**
+ * Plots multiple charts in one window.
+ */
 class Multiple2d: Plot2d<Multiple2d>("") {
     private var plots = mutableListOf<Plot2d<*>>()
     private var keepColors = false
 
+    /**
+     * Add plot to multiple plots chart.
+     */
     fun add(plot2d: Plot2d<*>): Multiple2d {
         plots += plot2d
         return this
     }
 
+    /**
+     * Preserve original plot colors. If false - will assign colors automatically.
+     */
     fun keepColors(keepColors: Boolean): Multiple2d {
         this.keepColors = keepColors
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): Multiple2d {
         val series = mutableListOf<Serie2d>()
         val legends = mutableListOf<Legend>()

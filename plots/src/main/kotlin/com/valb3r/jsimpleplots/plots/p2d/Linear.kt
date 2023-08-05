@@ -11,19 +11,31 @@ import java.awt.Font
 
 private const val LINEAR_OF_Y = "Linear of Y"
 
+/**
+ * Linear plot of the variable.
+ */
 class Linear: Plot2d<Linear>(LINEAR_OF_Y) {
     private lateinit var y: FloatArray
 
+    /**
+     * Input variable to plot.
+     */
     fun y(y: FloatArray): Linear {
         this.y = y
         return this
     }
 
+    /**
+     * Input variable to plot.
+     */
     fun y(y: DoubleArray): Linear {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): Linear {
         val chart = awtChart()
         // Legend

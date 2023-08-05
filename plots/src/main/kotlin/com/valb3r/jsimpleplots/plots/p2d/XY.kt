@@ -11,32 +11,48 @@ import java.awt.Font
 
 private const val XY_NAME = "X-Y"
 
+/**
+ * X-Y plot
+ */
 class XY: Plot2d<XY>(XY_NAME) {
 
     private lateinit var x: FloatArray
     private lateinit var y: FloatArray
 
+    /**
+     * X variable (abscissa)
+     */
     fun x(x: FloatArray): XY {
         this.x = x
         return this
     }
 
+    /**
+     * Y variable (ordinate)
+     */
     fun y(y: FloatArray): XY {
         this.y = y
         return this
     }
 
+    /**
+     * X variable (abscissa)
+     */
     fun x(x: DoubleArray): XY {
         this.x = x.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Y variable (ordinate)
+     */
     fun y(y: DoubleArray): XY {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
     /**
+     * X-Y tuple input in one array
      * Format is [x0,y0, x1,y1 ...]
      */
     fun xy(xy: FloatArray): XY {
@@ -56,6 +72,9 @@ class XY: Plot2d<XY>(XY_NAME) {
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): XY {
         val chart = awtChart()
         // Legend

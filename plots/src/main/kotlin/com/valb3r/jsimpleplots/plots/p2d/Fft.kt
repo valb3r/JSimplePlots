@@ -17,25 +17,40 @@ import kotlin.properties.Delegates
 
 private const val FFT_AMPLITUDE_OF_Y = "FFT (Amplitude) of Y"
 
+/**
+ * Fast-fourier transform of the variable.
+ */
 class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
     private var samplingFrequency by Delegates.notNull<Float>()
     private lateinit var y: FloatArray
 
+    /**
+     * Input variable.
+     */
     fun y(y: FloatArray): Fft {
         this.y = y
         return this
     }
 
+    /**
+     * Input variable.
+     */
     fun y(y: DoubleArray): Fft {
         this.y = y.map { it.toFloat() }.toFloatArray()
         return this
     }
 
+    /**
+     * Sampling frequency of the input variable, Hz
+     */
     fun samplingFrequency(samplingFrequency: Float): Fft {
         this.samplingFrequency = samplingFrequency
         return this
     }
 
+    /**
+     * Open plot in new Swing window.
+     */
     fun plot(): Fft {
         val chart = awtChart()
         // Legend
