@@ -7,6 +7,7 @@ import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
 import org.jzy3d.chart.factories.AWTChartFactory
 import org.jzy3d.chart.factories.ChartFactory
 import org.jzy3d.chart.factories.EmulGLChartFactory
+import org.jzy3d.chart.factories.EmulGLPainterFactory
 import org.jzy3d.chart.factories.NativePainterFactory
 import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
@@ -62,20 +63,25 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
 }
 
 internal fun chartFactory2d(): ChartFactory {
-    val f: ChartFactory = try {
+    return try {
         NativePainterFactory.detectGLProfile()
-        AWTChartFactory()
+        val f = AWTChartFactory()
+        f.painterFactory = object : SwingPainterFactory() {
+            override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
+                return AWTMousePickingPan2dController(chart, clickWidth)
+            }
+        }
+        f
     } catch (ex: Exception) {
         println("No OpenGL support found, fallback to software")
-        EmulGLChartFactory()
-    }
-
-    f.painterFactory = object : SwingPainterFactory() {
-        override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
-            return AWTMousePickingPan2dController(chart, clickWidth)
+        val f = EmulGLChartFactory()
+        f.painterFactory = object : EmulGLPainterFactory() {
+            override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
+                return AWTMousePickingPan2dController(chart, clickWidth)
+            }
         }
+        f
     }
-    return f
 }
 
 internal fun enableMouse(chart: AWTChart) {

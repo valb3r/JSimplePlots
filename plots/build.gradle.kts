@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.valb3r"
-version = "0.0.8-SNAPSHOT"
+version = "0.0.8"
 
 repositories {
     mavenCentral()
