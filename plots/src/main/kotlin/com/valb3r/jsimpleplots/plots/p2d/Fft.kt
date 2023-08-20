@@ -74,8 +74,8 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
         return infos
     }
 
-    private fun awtChart(): AWTChart {
-        val f = chartFactory2d()
+    private fun awtChart(offscreen: Offscreen2d? = null): AWTChart {
+        val f = chartFactory2d(offscreen)
         val chart = f.newChart() as AWTChart
 
         val transform = FastFourierTransformer(DftNormalization.STANDARD)
@@ -93,10 +93,10 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
         return chart
     }
 
-    override fun internalRepresentation(): InternalPlot2d {
+    override fun internalRepresentation(offscreen: Offscreen2d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart()
+                get() = awtChart(offscreen)
             override val legend: List<Legend>
                 get() = legend()
         }

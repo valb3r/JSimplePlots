@@ -88,8 +88,8 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
         return infos
     }
 
-    private fun awtChart(): AWTChart {
-        val f = chartFactory3d()
+    private fun awtChart(offscreen: Offscreen3d? = null): AWTChart {
+        val f = chartFactory3d(offscreen)
         val coords = mutableListOf<Coord3d>()
         var rowIndex = 0
         while (rowIndex < y.size) {
@@ -121,10 +121,10 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
         return chart
     }
 
-    override fun internalRepresentation(): InternalPlot2d {
+    override fun internalRepresentation(offscreen: Offscreen3d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart()
+                get() = awtChart(offscreen)
             override val legend: List<Legend>
                 get() = legend()
         }

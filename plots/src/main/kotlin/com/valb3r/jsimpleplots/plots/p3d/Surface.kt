@@ -141,8 +141,8 @@ class Surface: Plot3d<Surface>("Surface plot") {
         return infos
     }
 
-    private fun awtChart(): AWTChart {
-        val f = chartFactory3d()
+    private fun awtChart(offscreen: Offscreen3d? = null): AWTChart {
+        val f = chartFactory3d(offscreen)
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
             x.mapIndexed { ind, xp -> Coord3d(xp, y[ind], z[ind]) }
@@ -166,10 +166,10 @@ class Surface: Plot3d<Surface>("Surface plot") {
         return chart
     }
 
-    override fun internalRepresentation(): InternalPlot2d {
+    override fun internalRepresentation(offscreen: Offscreen3d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart()
+                get() = awtChart(offscreen)
             override val legend: List<Legend>
                 get() = legend()
         }

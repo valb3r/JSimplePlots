@@ -71,7 +71,7 @@ class Multiple2d: Plot2d<Multiple2d>("") {
         return this
     }
 
-    override fun internalRepresentation(): InternalPlot2d {
+    override fun internalRepresentation(offscreen: Offscreen2d?): InternalPlot2d {
         TODO("Not yet implemented")
     }
 }
