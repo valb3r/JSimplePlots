@@ -122,6 +122,17 @@ SimplePlots.fft()
 ```
 <!-- @embed-example-end -->
 
+### Saving plot to file
+<!-- @embed-example-start:example-2d-xy-screenshot:kotlin -->
+```kotlin
+SimplePlots.xy()
+    .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+    .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+    .screenshot()
+    .saveToFile(File("xy.png"))
+```
+<!-- @embed-example-end -->
+
 
 ## 3D plots
 
@@ -231,6 +242,17 @@ SimplePlots.INSTANCE.fft()
         .samplingFrequency(samplingFrequency)
         .y(data)
         .plot();
+```
+<!-- @embed-example-end -->
+
+### Saving plot to file
+<!-- @embed-example-start:example-2d-xy-screenshot:java -->
+```java
+SimplePlots.INSTANCE.xy()
+        .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+        .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+        .screenshot()
+        .saveToFile(new File("xy.png"), "png", new Rectangle(500, 500));
 ```
 <!-- @embed-example-end -->
 

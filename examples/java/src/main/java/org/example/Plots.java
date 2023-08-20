@@ -114,7 +114,7 @@ class Plots3dFftScreenshot {
         var data = IntStream.range(0, 5000)
                 .mapToDouble(it -> 0.4f * sin(2.0 * PI * 150 * it / samplingFrequency))
                 .toArray();
-        // @example-start:example-fft-heatmap
+        // @example-start:example-fft-heatmap-screenshot
         SimplePlots.INSTANCE.waterfallFft()
                 .y(data)
                 .chunkSize(100)
