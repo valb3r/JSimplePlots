@@ -2,6 +2,8 @@ package org.example;
 
 import com.valb3r.jsimpleplots.plots.SimplePlots;
 
+import java.awt.*;
+import java.io.File;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.PI;
@@ -14,6 +16,18 @@ public class Plots {
                 .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
                 .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
                 .plot();
+        // @example-end
+    }
+}
+
+class PlotsScreenshot {
+    public static void main(String[] args) {
+        // @example-start:example-2d-xy-screenshot
+        SimplePlots.INSTANCE.xy()
+                .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+                .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+                .screenshot()
+                .saveToFile(new File("xy.png"), "png", new Rectangle(500, 500));
         // @example-end
     }
 }
@@ -90,6 +104,23 @@ class Plots3dFft {
                 .chunkSize(100)
                 .samplingFrequency(samplingFrequency)
                 .plot();
+        // @example-end
+    }
+}
+
+class Plots3dFftScreenshot {
+    public static void main(String[] args) {
+        var samplingFrequency = 800.0f;
+        var data = IntStream.range(0, 5000)
+                .mapToDouble(it -> 0.4f * sin(2.0 * PI * 150 * it / samplingFrequency))
+                .toArray();
+        // @example-start:example-fft-heatmap
+        SimplePlots.INSTANCE.waterfallFft()
+                .y(data)
+                .chunkSize(100)
+                .samplingFrequency(samplingFrequency)
+                .screenshot()
+                .saveToFile(new File("heatmap.png"), "png", new Rectangle(500, 500));
         // @example-end
     }
 }

@@ -1,6 +1,7 @@
 package examples
 
 import com.valb3r.jsimpleplots.plots.SimplePlots
+import java.io.File
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -13,6 +14,20 @@ object Main2d {
             .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
             .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
             .plot()
+        // @example-end
+    }
+}
+
+object Main2dScreenshot {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        // @example-start:example-2d-xy-screenshot
+        SimplePlots.xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+            .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+            .screenshot()
+            .saveToFile(File("xy.png"))
         // @example-end
     }
 }
@@ -108,6 +123,23 @@ object MainFftWaterfall {
             .chunkSize(100)
             .samplingFrequency(samplingFrequency)
             .plot()
+        // @example-end
+    }
+}
+
+object MainFftWaterfallScreenshot {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val samplingFrequency = 800.0f
+        val data = (0..5000).map { 0.4f * sin(2.0 * PI * 150 * it.toDouble() / samplingFrequency).toFloat() }.toFloatArray()
+        // @example-start:example-fft-heatmap-screenshot
+        SimplePlots.waterfallFft()
+            .y(data)
+            .chunkSize(100)
+            .samplingFrequency(samplingFrequency)
+            .screenshot()
+            .saveToFile(File("waterfall.png"))
         // @example-end
     }
 }
