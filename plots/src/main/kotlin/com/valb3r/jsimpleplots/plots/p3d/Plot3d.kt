@@ -8,6 +8,7 @@ import org.jzy3d.chart.factories.AWTPainterFactory
 import org.jzy3d.chart.factories.ChartFactory
 import org.jzy3d.chart.factories.EmulGLChartFactory
 import org.jzy3d.chart.factories.NativePainterFactory
+import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.io.AWTImageExporter
 import org.jzy3d.plot3d.rendering.view.AWTRenderer3d
 import org.jzy3d.plot3d.rendering.view.Renderer3d
@@ -110,7 +111,7 @@ internal fun chartFactory3d(offscreen: Offscreen3d? = null): ChartFactory {
     val factory = try {
         NativePainterFactory.detectGLProfile()
         val f = AWTChartFactory()
-        f.painterFactory = object : AWTPainterFactory() {
+        f.painterFactory = object : SwingPainterFactory() { // AWTPainterFactory does not detect resize properly
             override fun newRenderer3D(view: View?): Renderer3d {
                 val renderer = super.newRenderer3D(view) as AWTRenderer3d
                 renderer.exporter = object : AWTImageExporter {

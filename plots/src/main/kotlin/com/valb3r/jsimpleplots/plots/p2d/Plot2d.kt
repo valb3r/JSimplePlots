@@ -11,6 +11,7 @@ import org.jzy3d.chart.factories.ChartFactory
 import org.jzy3d.chart.factories.EmulGLChartFactory
 import org.jzy3d.chart.factories.EmulGLPainterFactory
 import org.jzy3d.chart.factories.NativePainterFactory
+import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.io.AWTImageExporter
@@ -125,7 +126,7 @@ internal fun chartFactory2d(offscreen: Offscreen2d? = null): ChartFactory {
     val factory = try {
         NativePainterFactory.detectGLProfile()
         val f = AWTChartFactory()
-        f.painterFactory = object : AWTPainterFactory() {
+        f.painterFactory = object : SwingPainterFactory() { // AWTPainterFactory does not detect resize properly
             override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
                 return AWTMousePickingPan2dController(chart, clickWidth)
             }
