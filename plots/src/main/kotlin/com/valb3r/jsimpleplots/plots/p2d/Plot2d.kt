@@ -128,7 +128,7 @@ internal fun chartFactory2d(offscreen: Offscreen2d? = null): ChartFactory {
         val f = AWTChartFactory()
         f.painterFactory = object : SwingPainterFactory() { // AWTPainterFactory does not detect resize properly
             override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
-                return AWTMousePickingPan2dController(chart, clickWidth)
+                return CustomAWTMousePickingPan2dController(chart, clickWidth)
             }
 
             override fun newRenderer3D(view: View?): Renderer3d {
@@ -152,7 +152,7 @@ internal fun chartFactory2d(offscreen: Offscreen2d? = null): ChartFactory {
         val f = EmulGLChartFactory()
         f.painterFactory = object : EmulGLPainterFactory() {
             override fun newMousePickingController(chart: Chart?, clickWidth: Int): IMousePickingController {
-                return AWTMousePickingPan2dController(chart, clickWidth)
+                return CustomAWTMousePickingPan2dController(chart, clickWidth)
             }
         }
 

@@ -2,9 +2,9 @@ package com.valb3r.jsimpleplots.plots.p3d
 
 import com.jogamp.opengl.util.texture.TextureData
 import com.valb3r.jsimpleplots.plots.p2d.InternalPlot2d
-import com.valb3r.jsimpleplots.plots.p2d.ScreenshotPlot2d
+import org.jzy3d.chart.Chart
+import org.jzy3d.chart.controllers.mouse.camera.ICameraMouseController
 import org.jzy3d.chart.factories.AWTChartFactory
-import org.jzy3d.chart.factories.AWTPainterFactory
 import org.jzy3d.chart.factories.ChartFactory
 import org.jzy3d.chart.factories.EmulGLChartFactory
 import org.jzy3d.chart.factories.NativePainterFactory
@@ -112,6 +112,10 @@ internal fun chartFactory3d(offscreen: Offscreen3d? = null): ChartFactory {
         NativePainterFactory.detectGLProfile()
         val f = AWTChartFactory()
         f.painterFactory = object : SwingPainterFactory() { // AWTPainterFactory does not detect resize properly
+            override fun newMouseCameraController(chart: Chart): ICameraMouseController {
+                return CustomAWTCameraMouseController(chart)
+            }
+
             override fun newRenderer3D(view: View?): Renderer3d {
                 val renderer = super.newRenderer3D(view) as AWTRenderer3d
                 renderer.exporter = object : AWTImageExporter {
