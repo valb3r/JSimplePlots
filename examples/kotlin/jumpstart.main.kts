@@ -1,7 +1,7 @@
 // @example-start:jumpstart
 @file:Repository("https://jitpack.io")
 @file:Repository("https://maven.jzy3d.org/releases/")
-@file:DependsOn("com.github.valb3r.JSimplePlots:plots:0.0.10")
+@file:DependsOn("com.github.valb3r.JSimplePlots:plots:0.0.11")
 
 import com.valb3r.jsimpleplots.plots.SimplePlots
 

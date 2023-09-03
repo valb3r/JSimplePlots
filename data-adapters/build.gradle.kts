@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.valb3r"
-version = "0.0.11-SNAPSHOT"
+version = "0.0.11"
 
 repositories {
     mavenCentral()
