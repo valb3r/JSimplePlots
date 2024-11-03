@@ -177,7 +177,7 @@ internal fun chartFactory2d(offscreen: Offscreen2d? = null): ChartFactory {
         }
 
         f
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         println("No OpenGL support found, fallback to software")
         val f = EmulGLChartFactory()
         f.painterFactory = object : EmulGLPainterFactory() {

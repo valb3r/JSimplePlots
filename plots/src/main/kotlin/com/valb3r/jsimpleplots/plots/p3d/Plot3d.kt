@@ -158,7 +158,7 @@ internal fun chartFactory3d(offscreen: Offscreen3d? = null): ChartFactory {
             }
         }
         f
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         println("No OpenGL support found, fallback to software")
         EmulGLChartFactory()
     }
