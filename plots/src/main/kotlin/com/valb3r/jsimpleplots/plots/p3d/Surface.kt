@@ -119,8 +119,8 @@ class Surface: Plot3d<Surface>("Surface plot") {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): Surface {
-        val chart = awtChart()
+    fun plot(): UpdatablePlot3d<Surface> {
+        val (chart, shape) = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
@@ -132,7 +132,7 @@ class Surface: Plot3d<Surface>("Surface plot") {
         chart.open()
         chart.view3d()
         chart.addMouse()
-        return this
+        return UpdatablePlot3d(this, chart, shape)
     }
 
     private fun legend(): List<Legend> {
@@ -141,7 +141,7 @@ class Surface: Plot3d<Surface>("Surface plot") {
         return infos
     }
 
-    private fun awtChart(offscreen: Offscreen3d? = null): AWTChart {
+    private fun awtChart(offscreen: Offscreen3d? = null): ChartAndShape<AWTChart> {
         val f = chartFactory3d(offscreen)
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
@@ -163,13 +163,13 @@ class Surface: Plot3d<Surface>("Surface plot") {
         chart.axisLayout.font = org.jzy3d.painters.Font(fontFace, axisFontSize)
 
         chart.add(surface)
-        return chart
+        return ChartAndShape(chart, surface)
     }
 
     override fun internalRepresentation(offscreen: Offscreen3d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart(offscreen)
+                get() = awtChart(offscreen).chart
             override val legend: List<Legend>
                 get() = legend()
         }

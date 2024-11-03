@@ -20,6 +20,22 @@ public class Plots {
     }
 }
 
+class DynamicPlots {
+    public static void main(String[] args) {
+        // @example-start:example-2d-xy-dynamic
+        var aPlot = SimplePlots.INSTANCE.xy()
+                .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+                .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+                .plot();
+
+        for (int i = 0; i < 10; i++) {
+            aPlot.addPt(Math.random() * 10.0, Math.random() * 10.0, true);
+            try { Thread.sleep(1000L);} catch (InterruptedException ignored) {}
+        }
+        // @example-end
+    }
+}
+
 class PlotsScreenshot {
     public static void main(String[] args) {
         // @example-start:example-2d-xy-screenshot

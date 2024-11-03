@@ -3,10 +3,8 @@ package com.valb3r.jsimpleplots.plots.p2d
 import com.jogamp.opengl.util.texture.TextureData
 import org.jzy3d.chart.AWTChart
 import org.jzy3d.chart.Chart
-import org.jzy3d.chart.controllers.mouse.picking.AWTMousePickingPan2dController
 import org.jzy3d.chart.controllers.mouse.picking.IMousePickingController
 import org.jzy3d.chart.factories.AWTChartFactory
-import org.jzy3d.chart.factories.AWTPainterFactory
 import org.jzy3d.chart.factories.ChartFactory
 import org.jzy3d.chart.factories.EmulGLChartFactory
 import org.jzy3d.chart.factories.EmulGLPainterFactory
@@ -15,6 +13,7 @@ import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.colors.Color
 import org.jzy3d.colors.Color.COLORS
 import org.jzy3d.io.AWTImageExporter
+import org.jzy3d.plot2d.primitives.Serie2d
 import org.jzy3d.plot3d.rendering.view.AWTRenderer3d
 import org.jzy3d.plot3d.rendering.view.Renderer3d
 import org.jzy3d.plot3d.rendering.view.View
@@ -25,7 +24,38 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import javax.imageio.ImageIO
 
-abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
+interface IPlot2d<T : IPlot2d<T>> {
+    /**
+     * Set legend font.
+     * @param fontSize Font size of the legend
+     * @param axisFontSize Font size of axis labels
+     * @param fontFace Font face for axis and legend
+     */
+    fun font(fontSize: Int? = null, axisFontSize: Int? = null, fontFace: String? = null): T
+
+    /**
+     * Set plot name.
+     */
+    fun named(name: String): T
+
+    /**
+     * Set plot color.
+     */
+    fun color(color: Color): T
+
+    /**
+     * Set plot width (boldness).
+     */
+    fun width(width: Int): T
+
+    /**
+     * Takes screenshot of a chart, allowing to i.e. save it to file.
+     */
+    fun screenshot(): ScreenshotPlot2d<T>
+}
+
+
+abstract class Plot2d<T: IPlot2d<T>>(protected var name: String) : IPlot2d<T> {
 
     protected var color = COLORS[0]
     protected var width = 1
@@ -40,7 +70,7 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
      * @param axisFontSize Font size of axis labels
      * @param fontFace Font face for axis and legend
      */
-    fun font(fontSize: Int? = null, axisFontSize: Int? = null, fontFace: String? = null): T  {
+    override fun font(fontSize: Int?, axisFontSize: Int?, fontFace: String?): T  {
         fontSize?.let { this.fontSize = it }
         axisFontSize?.let { this.axisFontSize = it }
         fontFace?.let { this.fontFace = it }
@@ -50,7 +80,7 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     /**
      * Set plot name.
      */
-    fun named(name: String): T {
+    override fun named(name: String): T {
         this.name = name
         return this as T
     }
@@ -58,7 +88,7 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     /**
      * Set plot color.
      */
-    fun color(color: Color): T {
+    override fun color(color: Color): T {
         this.color = color
         return this as T
     }
@@ -66,7 +96,7 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     /**
      * Set plot width (boldness).
      */
-    fun width(width: Int): T {
+    override fun width(width: Int): T {
         this.width = width
         return this as T
     }
@@ -74,14 +104,14 @@ abstract class Plot2d<T: Plot2d<T>>(protected var name: String) {
     /**
      * Takes screenshot of a chart, allowing to i.e. save it to file.
      */
-    fun screenshot(): ScreenshotPlot2d<T> {
+    override fun screenshot(): ScreenshotPlot2d<T> {
         return ScreenshotPlot2d(this)
     }
 
     internal abstract fun internalRepresentation(offscreen: Offscreen2d? = null): InternalPlot2d
 }
 
-class ScreenshotPlot2d<T: Plot2d<T>>(private val plot: Plot2d<T>) {
+class ScreenshotPlot2d<T: IPlot2d<T>>(private val plot: Plot2d<T>) {
 
     /**
      * Save chart screenshot to file.
@@ -176,3 +206,5 @@ internal fun enableMouse(chart: AWTChart) {
     chart.addMouse()
     chart.addMousePickingController(5)
 }
+
+internal data class ChartAndSerie<T: Chart>(val chart: T, val serie: Serie2d)

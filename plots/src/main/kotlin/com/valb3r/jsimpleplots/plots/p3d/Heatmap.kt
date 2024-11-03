@@ -98,8 +98,8 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): Heatmap {
-        val chart = awtChart()
+    fun plot(): UpdatablePlot3d<Heatmap> {
+        val (chart, shape) = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
@@ -112,7 +112,7 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
         chart.open()
         chart.view2d()
         chart.addMouse()
-        return this
+        return UpdatablePlot3d(this, chart, shape)
     }
 
     private fun legend(): List<Legend> {
@@ -121,7 +121,7 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
         return infos
     }
 
-    private fun awtChart(offscreen: Offscreen3d? = null): AWTChart {
+    private fun awtChart(offscreen: Offscreen3d? = null): ChartAndShape<AWTChart> {
         val f = chartFactory3d(offscreen)
         // TODO: Assertion/truncation so X.size == Y.size == Z.size
         val surface: Shape = SurfaceBuilder().delaunay(
@@ -136,13 +136,13 @@ class Heatmap: Plot3d<Heatmap>(name = "Heatmap") {
 
         val chart: AWTChart = f.newChart(Quality.Advanced()) as AWTChart
         chart.add(surface)
-        return chart
+        return ChartAndShape(chart, surface)
     }
 
     override fun internalRepresentation(offscreen: Offscreen3d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart(offscreen)
+                get() = awtChart(offscreen).chart
             override val legend: List<Legend>
                 get() = legend()
         }

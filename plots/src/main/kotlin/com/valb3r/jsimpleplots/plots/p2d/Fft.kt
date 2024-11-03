@@ -51,8 +51,8 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): Fft {
-        val chart = awtChart()
+    fun plot(): UpdatablePlot2d<Fft> {
+        val (chart, serie) = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
@@ -65,7 +65,7 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
         // Open as 2D chart
         chart.view2d()
         chart.open()
-        return this
+        return UpdatablePlot2d(this, chart, serie)
     }
 
     private fun legend(): List<Legend> {
@@ -74,7 +74,7 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
         return infos
     }
 
-    private fun awtChart(offscreen: Offscreen2d? = null): AWTChart {
+    private fun awtChart(offscreen: Offscreen2d? = null): ChartAndSerie<AWTChart> {
         val f = chartFactory2d(offscreen)
         val chart = f.newChart() as AWTChart
 
@@ -90,13 +90,13 @@ class Fft: Plot2d<Fft>(FFT_AMPLITUDE_OF_Y) {
         serie.color = color
         serie.setWidth(width)
         chart.add(listOf(serie))
-        return chart
+        return ChartAndSerie(chart, serie)
     }
 
     override fun internalRepresentation(offscreen: Offscreen2d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart(offscreen)
+                get() = awtChart(offscreen).chart
             override val legend: List<Legend>
                 get() = legend()
         }

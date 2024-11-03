@@ -38,8 +38,8 @@ class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): DistributionHistogram {
-        val chart = awtChart()
+    fun plot(): UpdatablePlot2d<DistributionHistogram> {
+        val (chart, serie) = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
@@ -52,7 +52,7 @@ class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
         // Open as 2D chart
         chart.view2d()
         chart.open()
-        return this
+        return UpdatablePlot2d(this, chart, serie)
     }
 
     private fun legend(): List<Legend> {
@@ -61,7 +61,7 @@ class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
         return infos
     }
 
-    private fun awtChart(offscreen: Offscreen2d? = null): AWTChart {
+    private fun awtChart(offscreen: Offscreen2d? = null): ChartAndSerie<AWTChart> {
         val f = chartFactory2d(offscreen)
         val chart = f.newChart() as AWTChart
 
@@ -82,13 +82,13 @@ class DistributionHistogram: Plot2d<DistributionHistogram>(DISTRIBUTION_OF_X) {
         serie.color = color
         serie.setWidth(width)
         chart.add(listOf(serie))
-        return chart
+        return ChartAndSerie(chart, serie)
     }
 
     override fun internalRepresentation(offscreen: Offscreen2d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart(offscreen)
+                get() = awtChart(offscreen).chart
             override val legend: List<Legend>
                 get() = legend()
         }

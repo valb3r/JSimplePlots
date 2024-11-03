@@ -65,8 +65,8 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): WaterfallFft {
-        val chart = awtChart()
+    fun plot(): UpdatablePlot3d<WaterfallFft> {
+        val (chart, shape) = awtChart()
         // Legend
         val legend = OverlayLegendRenderer(legend())
         val layout: LineLegendLayout = legend.layout
@@ -79,7 +79,7 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
         chart.open()
         chart.view2d()
         chart.addMouse()
-        return this
+        return UpdatablePlot3d(this, chart, shape)
     }
 
     private fun legend(): List<Legend> {
@@ -88,7 +88,7 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
         return infos
     }
 
-    private fun awtChart(offscreen: Offscreen3d? = null): AWTChart {
+    private fun awtChart(offscreen: Offscreen3d? = null): ChartAndShape<AWTChart> {
         val f = chartFactory3d(offscreen)
         val coords = mutableListOf<Coord3d>()
         var rowIndex = 0
@@ -118,13 +118,13 @@ class WaterfallFft: Plot3d<WaterfallFft>("Waterfall") {
 
         val chart: AWTChart = f.newChart(Quality.Advanced()) as AWTChart
         chart.add(surface)
-        return chart
+        return ChartAndShape(chart, surface)
     }
 
     override fun internalRepresentation(offscreen: Offscreen3d?): InternalPlot2d {
         return object : InternalPlot2d {
             override val chart: Chart
-                get() = awtChart(offscreen)
+                get() = awtChart(offscreen).chart
             override val legend: List<Legend>
                 get() = legend()
         }

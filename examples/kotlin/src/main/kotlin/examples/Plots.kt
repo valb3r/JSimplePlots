@@ -1,6 +1,7 @@
 package examples
 
 import com.valb3r.jsimpleplots.plots.SimplePlots
+import com.valb3r.jsimpleplots.plots.SimplePlots.xy
 import java.io.File
 import kotlin.math.PI
 import kotlin.math.sin
@@ -14,6 +15,24 @@ object Main2d {
             .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
             .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
             .plot()
+        // @example-end
+    }
+}
+
+internal object DynamicPlots {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        // @example-start:example-2d-xy-dynamic
+        val aPlot = xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+            .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+            .plot()
+
+        for (i in 0..9) {
+            aPlot.addPt(Math.random() * 10.0, Math.random() * 10.0, true)
+            try { Thread.sleep(1000L) } catch (ignored: InterruptedException) { }
+        }
         // @example-end
     }
 }

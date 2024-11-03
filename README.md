@@ -111,6 +111,22 @@ SimplePlots.multiple()
 ```
 <!-- @embed-example-end -->
 
+### Dynamic plot (X-Y)
+![X-Y image](images/xy.jpg)
+<!-- @embed-example-start:example-2d-xy-dynamic:kotlin -->
+```kotlin
+val aPlot = xy()
+    .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f))
+    .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f))
+    .plot()
+
+for (i in 0..9) {
+    aPlot.addPt(Math.random() * 10.0, Math.random() * 10.0, true)
+    try { Thread.sleep(1000L) } catch (ignored: InterruptedException) { }
+}
+```
+<!-- @embed-example-end -->
+
 ### Fast-Fourier-Transform
 ![FFT image](images/fft.jpg)
 <!-- @embed-example-start:example-2d-fft:kotlin -->
@@ -232,6 +248,22 @@ SimplePlots.INSTANCE.multiple()
         .add(parabola)
         .add(cubic)
         .plot();
+```
+<!-- @embed-example-end -->
+
+### Dynamic plot (X-Y)
+![X-Y image](images/xy.jpg)
+<!-- @embed-example-start:example-2d-xy-dynamic:java -->
+```java
+var aPlot = SimplePlots.INSTANCE.xy()
+        .x(new float[] {1.0f, 2.0f, 3.0f, 4.0f})
+        .y(new float[] {1.0f, 4.0f, 9.0f, 16.0f})
+        .plot();
+
+for (int i = 0; i < 10; i++) {
+    aPlot.addPt(Math.random() * 10.0, Math.random() * 10.0, true);
+    try { Thread.sleep(1000L);} catch (InterruptedException ignored) {}
+}
 ```
 <!-- @embed-example-end -->
 

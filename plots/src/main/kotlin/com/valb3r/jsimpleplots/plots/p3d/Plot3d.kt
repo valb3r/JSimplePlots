@@ -10,6 +10,8 @@ import org.jzy3d.chart.factories.EmulGLChartFactory
 import org.jzy3d.chart.factories.NativePainterFactory
 import org.jzy3d.chart.factories.SwingPainterFactory
 import org.jzy3d.io.AWTImageExporter
+import org.jzy3d.plot2d.primitives.Serie2d
+import org.jzy3d.plot3d.primitives.Shape
 import org.jzy3d.plot3d.rendering.view.AWTRenderer3d
 import org.jzy3d.plot3d.rendering.view.Renderer3d
 import org.jzy3d.plot3d.rendering.view.View
@@ -20,7 +22,32 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import javax.imageio.ImageIO
 
-abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
+interface IPlot3d<T : IPlot3d<T>> {
+    /**
+     * Set legend font.
+     * @param fontSize Font size of the legend
+     * @param axisFontSize Font size of axis labels
+     * @param fontFace Font face for axis and legend
+     */
+    fun font(fontSize: Int? = null, axisFontSize: Int? = null, fontFace: String? = null): T
+
+    /**
+     * Set plot name.
+     */
+    fun named(name: String): T
+
+    /**
+     * Show wireframe.
+     */
+    fun wireframe(wireframe: Boolean): T
+
+    /**
+     * Takes screenshot of a chart, allowing to i.e. save it to file.
+     */
+    fun screenshot(): ScreenshotPlot3d<T>
+}
+
+abstract class Plot3d<T: IPlot3d<T>>(protected var name: String) : IPlot3d<T> {
 
     protected var fontFace = "Helvectica"
     protected var fontSize = 12
@@ -33,7 +60,7 @@ abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
      * @param axisFontSize Font size of axis labels
      * @param fontFace Font face for axis and legend
      */
-    fun font(fontSize: Int? = null, axisFontSize: Int? = null, fontFace: String? = null): T  {
+    override fun font(fontSize: Int?, axisFontSize: Int?, fontFace: String?): T  {
         fontSize?.let { this.fontSize = it }
         axisFontSize?.let { this.axisFontSize = it }
         fontFace?.let { this.fontFace = it }
@@ -43,7 +70,7 @@ abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
     /**
      * Set plot name.
      */
-    fun named(name: String): T {
+    override fun named(name: String): T {
         this.name = name
         return this as T
     }
@@ -51,7 +78,7 @@ abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
     /**
      * Show wireframe.
      */
-    fun wireframe(wireframe: Boolean): T {
+    override fun wireframe(wireframe: Boolean): T {
         this.wireframe = wireframe
         return this as T
     }
@@ -59,14 +86,14 @@ abstract class Plot3d<T: Plot3d<T>>(protected var name: String) {
     /**
      * Takes screenshot of a chart, allowing to i.e. save it to file.
      */
-    fun screenshot(): ScreenshotPlot3d<T> {
+    override fun screenshot(): ScreenshotPlot3d<T> {
         return ScreenshotPlot3d(this)
     }
 
     internal abstract fun internalRepresentation(offscreen: Offscreen3d? = null): InternalPlot2d
 }
 
-class ScreenshotPlot3d<T: Plot3d<T>>(private val plot: Plot3d<T>) {
+class ScreenshotPlot3d<T: IPlot3d<T>>(private val plot: Plot3d<T>) {
 
     /**
      * Save chart screenshot to file.
@@ -149,3 +176,5 @@ internal class Offscreen3d(
     val rectangle: Rectangle = Rectangle(800, 600),
     val lastRenderedImage: AtomicReference<BufferedImage> = AtomicReference<BufferedImage>()
 )
+
+internal data class ChartAndShape<T: Chart>(val chart: T, val shape: Shape)
