@@ -35,7 +35,7 @@ class Multiple2d: Plot2d<Multiple2d>("") {
     /**
      * Open plot in new Swing window.
      */
-    fun plot(): Multiple2d {
+    fun plot(): MultiUpdatablePlot2d<Multiple2d> {
         val series = mutableListOf<Serie2d>()
         val legends = mutableListOf<Legend>()
         var index = 0
@@ -68,7 +68,7 @@ class Multiple2d: Plot2d<Multiple2d>("") {
         // Open as 2D chart
         chart.view2d()
         chart.open()
-        return this
+        return MultiUpdatablePlot2d(this, chart, series)
     }
 
     override fun internalRepresentation(offscreen: Offscreen2d?): InternalPlot2d {

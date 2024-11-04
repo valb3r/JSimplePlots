@@ -14,8 +14,14 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jzy3d:jzy3d-native-jogl-swing:2.2.1")
-    implementation("org.jzy3d:jzy3d-emul-gl-awt:2.2.1")
+    implementation("org.jzy3d:jzy3d-native-jogl-swing:2.2.1") {
+        exclude(group = "org.apache.logging.log4j", module = "log4j-core")
+    }
+
+    implementation("org.jzy3d:jzy3d-emul-gl-awt:2.2.1")  {
+        exclude(group = "org.apache.logging.log4j", module = "log4j-core")
+    }
+
     implementation("org.apache.commons:commons-math3:3.6.1")
 
 

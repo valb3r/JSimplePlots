@@ -75,6 +75,36 @@ object Main2dMultiple {
     }
 }
 
+object Main2dMultipleDynamic {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        // @example-start:example-2d-xy-multiple-dynamic
+        val parabola = SimplePlots.xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f))
+            .y(floatArrayOf(1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f))
+            .width(5)
+            .named("Parabola")
+        val cubic = SimplePlots.xy()
+            .x(floatArrayOf(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f))
+            .y(floatArrayOf(1.0f, 8.0f, 27.0f, 64.0f, 125.0f, 216.0f))
+            .width(5)
+            .named("Cubic")
+
+        val multiple = SimplePlots.multiple()
+            .add(parabola)
+            .add(cubic)
+            .plot()
+
+        for (i in 0..9) {
+            multiple.addPt("Parabola", Math.random() * 10.0, Math.random() * 10.0, true)
+            multiple.addPt("Cubic", Math.random() * 10.0, Math.random() * 10.0, true)
+            try { Thread.sleep(1000L) } catch (ignored: InterruptedException) { }
+        }
+        // @example-end
+    }
+}
+
 object Main2dInplaces {
 
     @JvmStatic
