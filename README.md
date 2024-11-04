@@ -37,7 +37,7 @@ that describes available actions and is short and concise.
 <dependency>
     <groupId>com.github.valb3r.JSimplePlots</groupId>
     <artifactId>plots</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13</version>
 </dependency>
 ```
 
